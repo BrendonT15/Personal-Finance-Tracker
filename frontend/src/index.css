@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.row-between { 
+  @apply flex items-center justify-between;
+}
+
