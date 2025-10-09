@@ -56,7 +56,7 @@ const SignInPage = () => {
             <button className=" border border-gray-700 rounded-md bg-gray-700 text-white p-2 cursor-pointer">
               SIGN IN
             </button>
-            <p className="text-center text-sm">
+            <p className="text-center text-sm ">
               Don't have an account? Sign
               <Link to="/create-account">up</Link>
             </p>

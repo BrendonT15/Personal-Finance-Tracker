@@ -5,18 +5,33 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
+import Navbar from "../widgets/Navbar";
+import TransactionTable from "../widgets/TransactionTable";
+
 const TransactionPage = () => {
   return (
-    <div className="grid grid-cols-[10%_auto] w-full h-screen">
-      <div className="bg-gray-100"></div>
-      <div className="p-4 flex flex-col gap-4">
+    <div className="grid grid-cols-[15%_auto] w-full h-screen">
+      <div className="bg-gray-100 p-4">
+        <Navbar />
+      </div>
+      <div className="p-4 col gap-4">
         <div className="flex items-end gap-2">
-          <h2 className="text-4xl font-medium">Transations</h2>
+          <h2 className="text-4xl font-medium">Transactions</h2>
           <p className="text-sm text-gray-500 mb-1"> 196 Transactions</p>
         </div>
 
-        <div className="">
+        <div className="flex items-center gap-2">
+          <button className="flex items-center justify-between border-gray-100 py-1 px-2 rounded-sm bg-gray-700 cursor-pointer text-white gap-2 text-xs">
+            <span>All Transactions</span>
+
+            <div className="bg-gray-500 p-1 text-white font-medium text-xs flex items-center justify-center rounded-sm">
+              196
+            </div>
+          </button>
           <TransactionButton buttonTitle="In Progress" badgeValue={112} />
+          <TransactionButton buttonTitle="Completed" badgeValue={52} />
+          <TransactionButton buttonTitle="Refunded" badgeValue={4} />
+          <TransactionButton buttonTitle="Canceled" badgeValue={12} />
         </div>
         <div className="grid grid-cols-[55%_35%_auto] gap-2">
           <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2">
@@ -53,15 +68,7 @@ const TransactionPage = () => {
         </div>
 
         <div className="border rounded-md h-full border-gray-200">
-          <div className="p-4 flex items-center justify-between text-gray-400 border-b border-gray-200 text-sm">
-            <input type="checkbox" />
-            <p>Transaction ID</p>
-            <p>Description</p>
-            <p>Merchant Name</p>
-            <p>Category</p>
-            <p>Date</p>
-            <p>Amount</p>
-          </div>
+          <TransactionTable />
         </div>
       </div>
     </div>

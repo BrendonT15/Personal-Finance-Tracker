@@ -1,9 +1,13 @@
-const TestPage = () => { 
+import Navbar from "../widgets/Navbar";
 
-
+const TestPage = () => {
   return (
-
-    <div className="p-4 uppercase font-semibold text-6xl"><p>test</p></div>
+    <div className="grid grid-cols-[15%_auto] w-full h-screen">
+      <div className="bg-gray-100 p-4">
+        <Navbar/>
+      </div>
+      <div className=""></div>
+    </div>
   );
 };
 
