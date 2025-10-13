@@ -30,6 +30,7 @@ const data = [
   { name: "Jul", uv: 349, pv: 4300, amt: 2100 },
 ];
 
+// Sample data for Pie Chart
 const pieData = [
   { name: "Groceries", value: 400 },
   { name: "Utilities", value: 300 },
@@ -50,24 +51,32 @@ const barData = [
   { name: "Jul", transactions: 450 },
 ];
 
-const DashboardPage = () => {
+const AnalyicsPage = () => {
   return (
     <div className="p-4 col gap-4">
-      <h2 className="text-4xl font-medium mb-4">Dashboard</h2>
+      <h2 className="text-4xl font-medium mb-4">Analyics</h2>
 
+      {/* --- Top Widgets --- */}
       <div className="flex items-center gap-2">
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
-          widgetTitle="Account Balance"
+          widgetTitle="Revenue"
           widgetValue={123234}
-          widgetPercentChange={6.5}
-          widgetPercentIcon={TrendingUpOutlined}
-          percentColor="text-green-500"
+          widgetPercentChange={-2.5}
+          widgetPercentIcon={TrendingDownOutlined}
+          percentColor="text-red-500"
         />
-
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
-          widgetTitle="Transaction"
+          widgetTitle="Revenue"
+          widgetValue={123234}
+          widgetPercentChange={-2.5}
+          widgetPercentIcon={TrendingDownOutlined}
+          percentColor="text-red-500"
+        />
+        <StatWidget
+          widgetIcon={AccountBalanceWalletOutlined}
+          widgetTitle="Revenue"
           widgetValue={123234}
           widgetPercentChange={-2.5}
           widgetPercentIcon={TrendingDownOutlined}
@@ -91,6 +100,7 @@ const DashboardPage = () => {
         />
       </div>
 
+      {/* --- Line Chart --- */}
       <div className="border border-gray-200 rounded-md h-full p-4 mt-4">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
@@ -120,7 +130,9 @@ const DashboardPage = () => {
         </ResponsiveContainer>
       </div>
 
+      {/* --- Two Bottom Charts --- */}
       <div className="flex items-center justify-between gap-4 mt-4">
+        {/* Pie Chart */}
         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Spending Breakdown</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -146,6 +158,7 @@ const DashboardPage = () => {
           </ResponsiveContainer>
         </div>
 
+        {/* Bar Chart */}
         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Monthly Transactions</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -164,4 +177,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default AnalyicsPage;

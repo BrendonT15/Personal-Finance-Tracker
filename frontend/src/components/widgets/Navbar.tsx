@@ -10,8 +10,9 @@ import {
   LogoutOutlined as LogoutOutlinedIcon,
 } from "@mui/icons-material";
 
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
-  
   const navItemClasses =
     "flex items-center gap-1 cursor-pointer  hover:bg-emerald-100 hover:text-green-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
 
@@ -25,39 +26,35 @@ const Navbar = () => {
             <h4 className="text-gray-400 tracking-tighter text-xs">GENERAL</h4>
 
             <div className="col gap-1 text-gray-500 text-sm">
-              <p className={navItemClasses}>
+              <Link to="/home" className={navItemClasses}>
                 <DashboardOutlinedIcon fontSize="inherit" />
                 Dashboard
-              </p>
-              <p className={navItemClasses}>
+              </Link>
+              <Link to="/transactions" className={navItemClasses}>
                 <ReceiptLongOutlinedIcon fontSize="inherit" />
                 Transactions
-              </p>
+              </Link>
               <p className={navItemClasses}>
                 {" "}
                 <PeopleAltOutlinedIcon fontSize="inherit" /> Accounts
               </p>
-              <p className={navItemClasses}>
+              <Link to="/analytics" className={navItemClasses}>
                 <AnalyticsOutlinedIcon fontSize="inherit" /> Analytics
-              </p>
-              <p className={navItemClasses}>
+              </Link>
+              <Link to="/budget" className={navItemClasses}>
                 <SportsScoreOutlinedIcon fontSize="inherit" /> Budget
-              </p>
+              </Link>
             </div>
           </div>
 
           <div className="col-1">
             <h4 className="text-gray-400 tracking-tigher text-xs">SYSTEM</h4>
             <div className="col-1 text-gray-500 text-sm">
-              <p className={navItemClasses}>
-                {" "}
+              <Link to="settings" className={navItemClasses}>
                 <SettingsOutlinedIcon fontSize="inherit" />
                 Settings
-              </p>
-              <p className={navItemClasses}>
-                <Person2OutlinedIcon fontSize="inherit" />
-                My Account
-              </p>
+              </Link>
+
               <p className={navItemClasses}>
                 <DarkModeOutlinedIcon fontSize="inherit" />
                 Dark Mode

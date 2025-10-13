@@ -5,15 +5,11 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
-import Navbar from "../widgets/Navbar";
 import TransactionTable from "../widgets/TransactionTable";
 
 const TransactionPage = () => {
   return (
-    <div className="grid grid-cols-[15%_auto] w-full h-screen">
-      <div className="bg-gray-100 p-4">
-        <Navbar />
-      </div>
+    <>
       <div className="p-4 col gap-4">
         <div>
           <h2 className="text-4xl font-medium">Transactions</h2>
@@ -70,7 +66,7 @@ const TransactionPage = () => {
           <TransactionTable />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
