@@ -30,10 +30,60 @@ const TransactionTable = () => {
           </div>
         ))}
       </div>
-      
-      {[...Array(6)].map((_, index) => (
-        <TransactionRow key={index} />
-      ))}
+      <TransactionRow
+        transactionNumber={1}
+        transactionID={"DAS231"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Travel"
+        date="04/13/12"
+        price={12.42}
+      />
+      <TransactionRow
+        transactionNumber={2}
+        transactionID={"KDH951"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Groceries"
+        date="04/13/12"
+        price={12.42}
+      />{" "}
+      <TransactionRow
+        transactionNumber={3}
+        transactionID={"HUD582"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Utilities"
+        date="04/13/12"
+        price={12.42}
+      />{" "}
+      <TransactionRow
+        transactionNumber={4}
+        transactionID={"QUM950"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Clothes"
+        date="04/13/12"
+        price={12.42}
+      />{" "}
+      <TransactionRow
+        transactionNumber={5}
+        transactionID={"FLA128"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Healthcare"
+        date="04/13/12"
+        price={12.42}
+      />{" "}
+      <TransactionRow
+        transactionNumber={6}
+        transactionID={"PAL059"}
+        description={"Shopping"}
+        merchant="H&M"
+        category="Clothes"
+        date="04/13/12"
+        price={12.42}
+      />
     </>
   );
 };

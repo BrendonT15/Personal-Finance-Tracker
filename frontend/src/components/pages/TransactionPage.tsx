@@ -15,9 +15,8 @@ const TransactionPage = () => {
         <Navbar />
       </div>
       <div className="p-4 col gap-4">
-        <div className="flex items-end gap-2">
+        <div>
           <h2 className="text-4xl font-medium">Transactions</h2>
-          <p className="text-sm text-gray-500 mb-1"> 196 Transactions</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -58,7 +57,7 @@ const TransactionPage = () => {
             />
           </div>
 
-          <button className="bg-gray-100 p-2 rounded-sm flex items-center gap-2">
+          <button className="bg-gray-100 p-2 rounded-sm flex items-center gap-2 cursor-pointer">
             <FileUploadOutlinedIcon
               className="text-gray-500"
               fontSize="small"
