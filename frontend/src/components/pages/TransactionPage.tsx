@@ -28,8 +28,8 @@ const TransactionPage = () => {
           <TransactionButton buttonTitle="Refunded" badgeValue={4} />
           <TransactionButton buttonTitle="Canceled" badgeValue={12} />
         </div>
-        <div className="grid grid-cols-[55%_35%_auto] gap-2">
-          <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2 w-full">
             <SearchOutlinedIcon className="text-gray-500" fontSize="small" />
 
             <input
@@ -38,28 +38,20 @@ const TransactionPage = () => {
               className="bg-gray-100 focus:outline-none flex-1 text-sm text-gray-500"
             />
           </div>
+          <div className="flex items-center gap-1">
+            <button className="bg-purple-800 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+              <TuneOutlinedIcon className="text-white " fontSize="inherit" />
+              <p className="text-white  text-sm">Filter</p>
+            </button>
 
-          <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2">
-            <TuneOutlinedIcon className="text-gray-400" fontSize="small" />
-            <input
-              type="text"
-              placeholder="Filter"
-              className="bg-gray-100 focus:outline-none flex-1 text-sm text-gray-500"
-            />
-
-            <KeyboardArrowDownOutlinedIcon
-              className="text-gray-500"
-              fontSize="small"
-            />
+            <button className="bg-purple-800 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+              <FileUploadOutlinedIcon
+                className="text-white "
+                fontSize="inherit"
+              />
+              <p className="text-white  text-sm">Export</p>
+            </button>
           </div>
-
-          <button className="bg-gray-100 p-2 rounded-sm flex items-center gap-2 cursor-pointer">
-            <FileUploadOutlinedIcon
-              className="text-gray-500"
-              fontSize="small"
-            />
-            <p className="text-gray-400 text-sm">Export</p>
-          </button>
         </div>
 
         <div className="border rounded-md h-full border-gray-200">

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const navItemClasses =
-    "flex items-center gap-1 cursor-pointer  hover:bg-emerald-100 hover:text-green-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
+    "flex items-center gap-1 cursor-pointer  hover:bg-purple-100 hover:text-purple-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
 
   return (
     <div className="col gap-4 h-full">

@@ -123,20 +123,30 @@ const TransactionRow = ({
       <div
         ref={backdropRef}
         onClick={closeMenu}
-        className="fixed inset-0  bg-opacity-80 pointer-events-none opacity-0"
+        className="fixed inset-0 pointer-events-none"
         style={{ zIndex: 50, pointerEvents: isOpen ? "auto" : "none" }}
       ></div>
 
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 h-full w-1/3 bg-gray-100 p-4"
+        className="fixed top-0 right-0 h-full bg-gray-100 w-2/5 bg-gray-100 p-4"
         style={{ transform: "translateX(100%)", zIndex: 51 }}
       >
-
         {/* Transaction Menu Content */}
-        <div className="cursor-pointer" onClick={closeMenu}>
-          <CloseOutlinedIcon className="text-gray-500" fontSize="inherit" />
-            {transactionNumber}
+        <div className="h-full ">
+          <div className="cursor-pointer text-end " onClick={closeMenu}>
+            <CloseOutlinedIcon className="text-gray-500" fontSize="inherit" />
+          </div>
+
+          <div className="p-4 h-full col gap-2">
+            <h2 className="text-4xl font-medium">{transactionID}</h2>
+
+            <div className="border border-gray-300 p-4 h-full rounded-md">
+              <p className="text-gray-400 text-xs ">Transaction Detail</p>
+              
+            </div>
+
+          </div>
         </div>
       </div>
     </>

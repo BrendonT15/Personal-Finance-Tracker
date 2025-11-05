@@ -16,9 +16,11 @@ import {
   PieChart,
   Pie,
   Cell,
-  BarChart,
-  Bar,
 } from "recharts";
+
+import TestAreaChart from "../widgets/charts/TestAreaChart";
+import TestPosNegBarChart from "../widgets/charts/TestPosNegBarChart";
+import TestRadarChart from "./TestRadarChart";
 
 const data = [
   { name: "Jan", uv: 400, pv: 2400, amt: 2400 },
@@ -39,16 +41,6 @@ const pieData = [
 ];
 
 const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
-
-const barData = [
-  { name: "Jan", transactions: 400 },
-  { name: "Feb", transactions: 350 },
-  { name: "Mar", transactions: 200 },
-  { name: "Apr", transactions: 500 },
-  { name: "May", transactions: 250 },
-  { name: "Jun", transactions: 300 },
-  { name: "Jul", transactions: 450 },
-];
 
 const DashboardPage = () => {
   return (
@@ -147,17 +139,22 @@ const DashboardPage = () => {
         </div>
 
         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
-          <h3 className="text-lg font-medium mb-2">Monthly Transactions</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="transactions" fill="#82ca9d" name="Transactions" />
-            </BarChart>
-          </ResponsiveContainer>
+          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
+
+          <TestAreaChart />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[25%_auto] gap-1">
+        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
+
+          <TestPosNegBarChart />
+        </div>
+        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
+
+          <TestRadarChart />
         </div>
       </div>
     </div>
