@@ -1,8 +1,5 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-dotenv.config();
-
 import supabase from "./config/supabase.js";
 
 const app = express();
@@ -37,30 +34,22 @@ app.post("/auth/signup", async (req, res) => {
   res.json({ user: data.user });
 });
 
-app.get("/test-supabase", async (req, res) => {
-  try {
-    const { data, error } = await supabase.auth.signUp({
-      email: "test@example.com",
-      password: "test123456",
-      options: {
-        data: {
-          first_name: "Test",
-          last_name: "User",
-        },
-      },
-    });
+app.post("/auth/signin", async (req, res) => {
+  const { email, password } = req.body;
 
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
-        details: error,
-      });
-    }
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    res.json({ success: true, data });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  if (error) {
+    return res.status(400).json({ error: error.message });
   }
+
+  res.json({
+    user: data.user,
+    session: data.session,
+  });
 });
 
 const PORT = process.env.PORT || 8000;
