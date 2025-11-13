@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -10,6 +10,13 @@ const CreateAccountPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session) {
+      navigate("/home"), { replace: true };
+    }
+  }, [navigate]);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -29,7 +36,7 @@ const CreateAccountPage = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setError(""); 
+    setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

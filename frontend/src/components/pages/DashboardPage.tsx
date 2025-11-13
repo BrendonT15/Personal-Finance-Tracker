@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
@@ -43,9 +45,19 @@ const pieData = [
 const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const DashboardPage = () => {
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
+      setFirstName(user.user_metadata?.first_name || "User");
+    }
+  }, []);
+
   return (
     <div className="p-4 col gap-4">
-      <h2 className="text-4xl font-medium mb-4">Dashboard</h2>
+      <h2 className="text-4xl font-medium mb-4">Dashboard - Welcome {firstName}</h2>
 
       <div className="flex items-center gap-2">
         <StatWidget

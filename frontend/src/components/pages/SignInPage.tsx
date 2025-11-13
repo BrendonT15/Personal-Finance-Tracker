@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -13,6 +13,13 @@ const SignInPage = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session) {
+      navigate("/home"), { replace: true };
+    }
+  }, [navigate]);
+
   const togglePasswordVisibility = (): void => {
     setShowPassword((prev) => !prev);
   };
@@ -23,7 +30,13 @@ const SignInPage = () => {
     setLoading(true);
 
     try {
-      await authAPI.signin(email, password);
+      const response = await authAPI.signin(email, password);
+      console.log("User Info:", JSON.stringify(response.user, null, 2));
+      console.log("Session Info:", JSON.stringify(response.session, null, 2));
+      console.log("Full Response:", JSON.stringify(response, null, 2));
+      
+      localStorage.setItem("user", JSON.stringify(response.user));
+      localStorage.setItem("session", JSON.stringify(response.session));
       navigate("/home");
     } catch (err: any) {
       setError(

@@ -10,9 +10,41 @@ import {
   LogoutOutlined as LogoutOutlinedIcon,
 } from "@mui/icons-material";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const sessionString = localStorage.getItem("session");
+      const session = sessionString ? JSON.parse(sessionString) : null;
+      const token = session?.access_token;
+
+      await axios.post(
+        "http://localhost:8000/auth/signout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      localStorage.clear();
+
+      navigate("/signin", { replace: true });
+
+      window.location.reload();
+    } catch (err) {
+      console.error("Logout failed:", err);
+      localStorage.clear();
+      navigate("/signin", { replace: true });
+      window.location.reload();
+    }
+  };
   const navItemClasses =
     "flex items-center gap-1 cursor-pointer  hover:bg-purple-100 hover:text-purple-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
 
@@ -64,7 +96,7 @@ const Navbar = () => {
         </div>
 
         <div className="mt-auto text-sm text-gray-500">
-          <p className={navItemClasses}>
+          <p className={navItemClasses} onClick={handleLogout}>
             <LogoutOutlinedIcon fontSize="inherit" /> Logout
           </p>
         </div>
