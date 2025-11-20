@@ -13,9 +13,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const checkAuth = () => {
       const session = localStorage.getItem("session");
       const user = localStorage.getItem("user");
-      const accessToken = localStorage.getItem("access_token");
 
-      if (!session || !user || !accessToken) {
+      if (!session || !user) {
         setIsAuthenticated(false);
         setIsChecking(false);
         return;
@@ -23,7 +22,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
       try {
         const sessionData = JSON.parse(session);
-        // Check if token exists
+        // Check if session has access_token (it's inside the session object)
         if (sessionData.access_token) {
           setIsAuthenticated(true);
         } else {
@@ -41,7 +40,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, []);
 
   if (isChecking) {
-    // Optional: show a loading spinner while checking
     return (
       <div className="flex items-center justify-center h-screen">
         <p>Loading...</p>
@@ -53,7 +51,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     // Clear any stale data
     localStorage.removeItem("session");
     localStorage.removeItem("user");
-    localStorage.removeItem("access_token");
     return <Navigate to="/signin" replace />;
   }
 

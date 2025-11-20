@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { authAPI } from "../../services/api";
+import { supabase } from "../../services/supabaseClient.ts";
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -16,7 +17,7 @@ const SignInPage = () => {
   useEffect(() => {
     const session = localStorage.getItem("session");
     if (session) {
-      navigate("/home"), { replace: true };
+      navigate("/home", { replace: true });
     }
   }, [navigate]);
 
@@ -34,7 +35,7 @@ const SignInPage = () => {
       console.log("User Info:", JSON.stringify(response.user, null, 2));
       console.log("Session Info:", JSON.stringify(response.session, null, 2));
       console.log("Full Response:", JSON.stringify(response, null, 2));
-      
+
       localStorage.setItem("user", JSON.stringify(response.user));
       localStorage.setItem("session", JSON.stringify(response.session));
       navigate("/home");
@@ -44,6 +45,19 @@ const SignInPage = () => {
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/auth/callback",
+      },
+    });
+
+    if (error) {
+      setError(error.message);
     }
   };
 
@@ -98,7 +112,14 @@ const SignInPage = () => {
                 </div>
               </div>
             </div>
-            <p className="cursor-pointer text-sm">Forgot password?</p>
+            <div className="flex items-center cursor-pointer text-sm justify-between">
+              <p>Forgot password?</p>
+
+              <div className="flex items-center gap-1">
+                <input type="checkbox" />
+                <p>Remember Me? </p>
+              </div>
+            </div>
 
             <button
               type="submit"
@@ -123,6 +144,7 @@ const SignInPage = () => {
             </div>
             <button
               type="button"
+              onClick={handleGoogleSignIn}
               className="flex items-center justify-center gap-2 border border-gray-400 rounded-md p-2 cursor-pointer hover:bg-gray-50"
             >
               <img

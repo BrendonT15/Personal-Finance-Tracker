@@ -3,6 +3,8 @@ import TestPage from "./components/pages/TestPage";
 import SignInPage from "./components/pages/SignInPage";
 import AnalyticsPage from "./components/pages/AnalyticsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { supabase } from "./services/supabaseClient";
+import { useEffect } from "react";
 
 import {
   BrowserRouter as Router,
@@ -19,13 +21,16 @@ import BudgetPage from "./components/pages/BudetPage";
 import AccountInfoPage from "./components/pages/settings/AccountInfoPage";
 import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage";
 import NotificationPage from "./components/pages/settings/NotificationPage";
+import AuthCallback from "./services/AuthCallback";
 
 function App() {
+  
   return (
     <Router>
       <Routes>
         <Route path="/create-account" element={<CreateAccountPage />} />
         <Route path="/signin" element={<SignInPage />} />
+        <Route path="/auth/callback" element={<AuthCallback/>}/>
 
         <Route path="/" element={<Navigate to="/home" replace />} />
 

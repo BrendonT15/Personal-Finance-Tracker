@@ -12,9 +12,11 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDarkMode } from "../../hooks/useDarkMode";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const {isDark, toggleDarkMode} = useDarkMode();
 
   const handleLogout = async () => {
     try {
@@ -87,7 +89,7 @@ const Navbar = () => {
                 Settings
               </Link>
 
-              <p className={navItemClasses}>
+              <p className={navItemClasses} onClick={toggleDarkMode}>
                 <DarkModeOutlinedIcon fontSize="inherit" />
                 Dark Mode
               </p>
