@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
 import cors from "cors";
 import supabase from "./config/supabase.js";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
-
 
 const app = express();
 app.use(
@@ -15,8 +14,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-// Sign up
 
 app.post("/auth/signup", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -75,7 +72,6 @@ app.post("/auth/signout", async (req, res) => {
 });
 
 // PLAID API STUFF
-
 const config = new Configuration({
   basePath: PlaidEnvironments.sandbox,
   baseOptions: {
@@ -92,14 +88,17 @@ app.post("/api/create-link-token", async (req, res) => {
   try {
     console.log("=== CREATE LINK TOKEN REQUEST ===");
     console.log("Request body:", req.body);
-    
+
     const { user_id } = req.body;
-    
+
     console.log("User ID:", user_id);
     console.log("PLAID_CLIENT_ID:", process.env.PLAID_CLIENT_ID);
     console.log("PLAID_SECRET exists:", !!process.env.PLAID_SECRET);
-    console.log("PLAID_SECRET value:", process.env.PLAID_SECRET?.substring(0, 10) + "..."); // First 10 chars only
-    
+    console.log(
+      "PLAID_SECRET value:",
+      process.env.PLAID_SECRET?.substring(0, 10) + "..."
+    );
+
     if (!user_id) {
       console.log("ERROR: Missing user_id");
       return res.status(400).send("Missing user_id");
@@ -122,9 +121,9 @@ app.post("/api/create-link-token", async (req, res) => {
     console.error("Error:", err);
     console.error("Error response:", err.response?.data);
     console.error("Error status:", err.response?.status);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Failed to create link token",
-      details: err.response?.data || err.message 
+      details: err.response?.data || err.message,
     });
   }
 });
@@ -140,24 +139,82 @@ app.post("/api/exchange-public-token", async (req, res) => {
     const accessToken = exchangeResponse.data.access_token;
     const itemId = exchangeResponse.data.item_id;
 
-    const { error } = await supabase
-      .from("plaid_items") // You'll need to create this table
-      .insert({
-        user_id: user_id,
-        access_token: accessToken,
-        item_id: itemId,
-      });
+    const { error } = await supabase.from("plaid_items").insert({
+      user_id: user_id,
+      access_token: accessToken,
+      item_id: itemId,
+    });
 
     if (error) throw error;
 
     res.json({ success: true });
   } catch (err) {
     console.error(err);
-    res.status(500).send("token exhcange fialed");
+    res.status(500).send("Token exchange failed");
   }
 });
 
+app.post("/api/get-accounts", async (req, res) => {
+  const { access_token } = req.body; 
 
+  try {
+    const accountsResponse = await client.accountsGet({
+      access_token,
+    });
+
+    console.log("=== ACCOUNT INFO ===");
+    console.log(JSON.stringify(accountsResponse.data, null, 2));
+    
+    res.json(accountsResponse.data); 
+  } catch (err) {
+    console.error("Error fetching accounts:", err);
+    res.status(500).send("Failed to fetch accounts"); 
+  }
+});
+
+app.post("/api/get-transactions", async (req, res) => {
+  const { access_token } = req.body;
+
+  try {
+    const now = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(now.getDate() - 30);
+
+    const request = {
+      access_token,
+      start_date: thirtyDaysAgo.toISOString().split("T")[0],
+      end_date: now.toISOString().split("T")[0],
+    };
+
+    const transactionsResponse = await client.transactionsGet(request);
+
+    console.log("=== TRANSACTIONS ===");
+    console.log(JSON.stringify(transactionsResponse.data, null, 2));
+
+    res.json(transactionsResponse.data);
+  } catch (err) {
+    console.error("Error fetching transactions:", err);
+    res.status(500).send("Failed to fetch transactions"); 
+  }
+});
+
+app.post("/api/get-item", async (req, res) => {
+  const { access_token } = req.body;
+
+  try {
+    const itemResponse = await client.itemGet({
+      access_token,
+    });
+
+    console.log("=== ITEM INFO ===");
+    console.log(JSON.stringify(itemResponse.data, null, 2));
+
+    res.json(itemResponse.data);
+  } catch (err) {
+    console.error("Error fetching item:", err);
+    res.status(500).send("Failed to fetch item");
+  }
+});
 
 const PORT = process.env.PORT || 8000;
 
