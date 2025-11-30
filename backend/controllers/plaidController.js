@@ -1,3 +1,5 @@
+/*
+
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import dotenv from "dotenv";
 
@@ -116,3 +118,5 @@ export async function itemRemove(req, res) {
     res.status(500).send(`Error removing item...`);
   }
 }
+
+*/

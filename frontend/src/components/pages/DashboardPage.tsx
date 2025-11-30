@@ -23,6 +23,7 @@ import {
 import TestAreaChart from "../widgets/charts/TestAreaChart";
 import TestPosNegBarChart from "../widgets/charts/TestPosNegBarChart";
 import TestRadarChart from "./TestRadarChart";
+import PlaidButton from "../plaid/PlaidButton";
 
 const data = [
   { name: "Jan", uv: 400, pv: 2400, amt: 2400 },
@@ -57,7 +58,13 @@ const DashboardPage = () => {
 
   return (
     <div className="p-4 col gap-4">
-      <h2 className="text-4xl font-medium mb-4">Dashboard - Welcome {firstName}</h2>
+      <h2 className="text-4xl font-medium mb-4">
+        Dashboard - Welcome {firstName}
+      </h2>
+
+      <PlaidButton />
+
+   
 
       <div className="flex items-center gap-2">
         <StatWidget

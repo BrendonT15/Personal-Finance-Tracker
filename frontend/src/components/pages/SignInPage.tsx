@@ -34,10 +34,23 @@ const SignInPage = () => {
       const response = await authAPI.signin(email, password);
       console.log("User Info:", JSON.stringify(response.user, null, 2));
       console.log("Session Info:", JSON.stringify(response.session, null, 2));
-      console.log("Full Response:", JSON.stringify(response, null, 2));
 
+      // ✅ Set the session in the Supabase client
+      const { error } = await supabase.auth.setSession({
+        access_token: response.session.access_token,
+        refresh_token: response.session.refresh_token,
+      });
+
+      if (error) {
+        console.error("Error setting session:", error);
+        setError("Failed to establish session");
+        return;
+      }
+
+      // Optional: You can still store in localStorage as backup
       localStorage.setItem("user", JSON.stringify(response.user));
       localStorage.setItem("session", JSON.stringify(response.session));
+
       navigate("/home");
     } catch (err: any) {
       setError(
