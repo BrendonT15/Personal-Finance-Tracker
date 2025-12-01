@@ -159,7 +159,7 @@ app.post("/api/get-accounts", async (req, res) => {
 
   try {
     const accountsResponse = await client.accountsGet({
-      access_token,
+      access_token, 
     });
 
     console.log("=== ACCOUNT INFO ===");
@@ -191,7 +191,7 @@ app.post("/api/get-transactions", async (req, res) => {
     console.log("=== TRANSACTIONS ===");
     console.log(JSON.stringify(transactionsResponse.data, null, 2));
 
-    res.json(transactionsResponse.data);
+    res.json(transactionsResponse.data); 
   } catch (err) {
     console.error("Error fetching transactions:", err);
     res.status(500).send("Failed to fetch transactions"); 

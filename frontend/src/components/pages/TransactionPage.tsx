@@ -6,8 +6,56 @@ import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDown
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 import TransactionTable from "../widgets/TransactionTable";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { supabase } from "../../services/supabaseClient";
 
 const TransactionPage = () => {
+  const [transactionCount, setTransactionCount] = useState<number>(0);
+  const [transactions, setTransactions] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.user) {
+        return;
+      }
+
+      const { data: plaidItems, error } = await supabase
+        .from("plaid_items")
+        .select("access_token")
+        .eq("user_id", session.user.id)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (error || !plaidItems || plaidItems.length === 0) {
+        return;
+      }
+
+      const accessToken = plaidItems[0].access_token;
+
+      const transactionsRes = await axios.post(
+        "http://localhost:8000/api/get-transactions",
+        { access_token: accessToken }
+      );
+
+      const txns = transactionsRes.data.transactions;
+      setTransactions(txns);
+      setTransactionCount(txns.length);
+
+      console.log("Fetched transactions:", txns);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <div className="p-4 col gap-4">
@@ -20,7 +68,7 @@ const TransactionPage = () => {
             <span>All Transactions</span>
 
             <div className="bg-gray-500 p-1 text-white font-medium text-xs flex items-center justify-center rounded-sm">
-              196
+              {transactionCount}
             </div>
           </button>
           <TransactionButton buttonTitle="In Progress" badgeValue={112} />
@@ -55,7 +103,7 @@ const TransactionPage = () => {
         </div>
 
         <div className="border rounded-md h-full border-gray-200">
-          <TransactionTable />
+          <TransactionTable transactions={transactions} />
         </div>
       </div>
     </>
