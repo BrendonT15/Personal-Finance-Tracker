@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import batImage from "../../assets/sergiu-jurca-3Zwi--bRFnE-unsplash.jpg"
 
 import { authAPI } from "../../services/api";
 
@@ -88,9 +89,10 @@ const CreateAccountPage = () => {
 
   return (
     <div className="grid grid-cols-[40%_60%] w-full h-screen">
-      <div className="bg-gray-700 p-4">
+      <div className="bg-gray-700">
         <div className="">
-          <h1 className="text-3xl font-medium text-white">BAT</h1>
+          <h1 className="text-3xl font-medium text-white absolute left-6 top-6">BAT</h1>
+          <img src={batImage} className="h-screen w-full"/>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center h-full overflow-auto">
