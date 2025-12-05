@@ -5,12 +5,22 @@ interface Transaction {
   transaction_id: string;
   name: string;
   merchant_name?: string;
-  category?: string[];
   date: string;
   amount: number;
+  payment_channel: string;
+  website: string;
+  logo_url: string;
+  pending: boolean;
+  personal_finance_category?: {
+    primary: string;
+  };
 }
 
-const TransactionTable = ({ transactions }: { transactions: Transaction[] }) => {
+const TransactionTable = ({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) => {
   const headers = [
     "Transaction Number",
     "Transaction ID",
@@ -40,7 +50,7 @@ const TransactionTable = ({ transactions }: { transactions: Transaction[] }) => 
           </div>
         ))}
       </div>
-      
+
       {transactions.length > 0 ? (
         transactions.map((txn, index) => (
           <TransactionRow
@@ -49,9 +59,13 @@ const TransactionTable = ({ transactions }: { transactions: Transaction[] }) => 
             transactionID={txn.transaction_id.substring(0, 5).toUpperCase()}
             description={txn.name}
             merchant={txn.merchant_name || "N/A"}
-            category={txn.category?.[0] || "Other"}
+            category={txn.personal_finance_category?.primary || "Other"}
             date={txn.date}
             price={txn.amount}
+            paymentChannel={txn.payment_channel}
+            website={txn.website}
+            logo_url={txn.logo_url}
+            pending={txn.pending}
           />
         ))
       ) : (

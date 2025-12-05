@@ -2,7 +2,6 @@ import TransactionButton from "../widgets/buttons/TransactionButton";
 
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 import TransactionTable from "../widgets/TransactionTable";
@@ -56,6 +55,8 @@ const TransactionPage = () => {
     }
   };
 
+  const pendingCount = transactions.filter(t => t.pending).length;
+
   return (
     <>
       <div className="p-4 col gap-4">
@@ -71,10 +72,8 @@ const TransactionPage = () => {
               {transactionCount}
             </div>
           </button>
-          <TransactionButton buttonTitle="In Progress" badgeValue={112} />
-          <TransactionButton buttonTitle="Completed" badgeValue={52} />
-          <TransactionButton buttonTitle="Refunded" badgeValue={4} />
-          <TransactionButton buttonTitle="Canceled" badgeValue={12} />
+          <TransactionButton buttonTitle="Pending" badgeValue={pendingCount} />
+         
         </div>
         <div className="flex items-center justify-between gap-2">
           <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2 w-full">

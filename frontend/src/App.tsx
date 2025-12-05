@@ -1,10 +1,8 @@
 import CreateAccountPage from "./components/pages/CreateAccountPage";
-import TestPage from "./components/pages/TestPage";
 import SignInPage from "./components/pages/SignInPage";
 import AnalyticsPage from "./components/pages/AnalyticsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import { supabase } from "./services/supabaseClient";
-import { useEffect } from "react";
+
 
 import {
   BrowserRouter as Router,
@@ -12,7 +10,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import HomePage from "./components/pages/HomePage";
 import TransactionPage from "./components/pages/TransactionPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import SettingsPage from "./components/pages/SettingsPage";
@@ -22,6 +19,7 @@ import AccountInfoPage from "./components/pages/settings/AccountInfoPage";
 import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage";
 import NotificationPage from "./components/pages/settings/NotificationPage";
 import AuthCallback from "./services/AuthCallback";
+import LandingPage from "./components/pages/LandingPage";
 
 function App() {
   
@@ -31,8 +29,8 @@ function App() {
         <Route path="/create-account" element={<CreateAccountPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/auth/callback" element={<AuthCallback/>}/>
+        <Route path="/" element={<LandingPage/>}/>
 
-        <Route path="/" element={<Navigate to="/home" replace />} />
 
         <Route
           path="/"

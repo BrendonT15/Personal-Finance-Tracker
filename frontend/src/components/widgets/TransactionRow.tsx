@@ -13,6 +13,10 @@ const TransactionRow = ({
   category,
   date,
   price,
+  paymentChannel,
+  website,
+  logo_url,
+  pending,
 }: {
   transactionNumber: number;
   transactionID: string;
@@ -21,6 +25,10 @@ const TransactionRow = ({
   category: string;
   date: string;
   price: number;
+  paymentChannel: string;
+  website: string;
+  logo_url: string;
+  pending: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -129,11 +137,11 @@ const TransactionRow = ({
 
       <div
         ref={menuRef}
-        className="fixed top-0 right-0 h-full bg-gray-100 w-2/5 bg-gray-100 p-4"
+        className="fixed top-0 right-0 h-full bg-gray-100 w-2/5 p-4"
         style={{ transform: "translateX(100%)", zIndex: 51 }}
       >
         {/* Transaction Menu Content */}
-        <div className="h-full ">
+        <div className="h-full">
           <div className="cursor-pointer text-end " onClick={closeMenu}>
             <CloseOutlinedIcon className="text-gray-500" fontSize="inherit" />
           </div>
@@ -141,11 +149,50 @@ const TransactionRow = ({
           <div className="p-4 h-full col gap-2">
             <h2 className="text-4xl font-medium">{transactionID}</h2>
 
-            <div className="border border-gray-300 p-4 h-full rounded-md">
-              <p className="text-gray-400 text-xs ">Transaction Detail</p>
-              
-            </div>
+            <div className="border border-gray-300 flex-1 flex flex-col rounded-md">
+              <p className="text-gray-400 text-xs uppercase font-medium tracking-tight border-b border-gray-300 p-4 w-full ">
+                Transaction Detail
+              </p>
 
+              <div className="p-4 grid grid-cols-2 gap-2 flex-1">
+                <div className="flex flex-col gap-2">
+                  <div className="">
+                    <p className="text-xs text-gray-400">Transaction Name</p>
+                    <p>{merchant}</p>
+                  </div>
+                  <div className="">
+                    <p className="text-xs text-gray-400">Date</p>
+                    <p>{date}</p>
+                  </div>
+
+                  <div className="">
+                    <p className="text-xs text-gray-400">Payment Channels</p>
+                    <p>{paymentChannel}</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="">
+                    <p className="text-xs text-gray-400">Transaction ID</p>
+                    <p>{transactionID}</p>
+                    <div className="">
+                      <p className="text-xs text-gray-400">Website</p>
+                      <p>{website}</p>
+                    </div>
+                    <div className="">
+                      <p className="text-xs text-gray-400">Category</p>
+                      <p>{category}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  {" "}
+                  <p>Total</p>
+                  <p> ${price.toFixed(2)}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
