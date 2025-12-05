@@ -2,6 +2,7 @@ import CreateAccountPage from "./components/pages/CreateAccountPage";
 import SignInPage from "./components/pages/SignInPage";
 import AnalyticsPage from "./components/pages/AnalyticsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AccountsPage from "./components/pages/AccountsPage";
 
 
 import {
@@ -44,6 +45,8 @@ function App() {
           <Route path="transactions" element={<TransactionPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="budget" element={<BudgetPage />} />
+          <Route path="accounts" element={<AccountsPage />} />
+
 
           <Route path="settings" element={<SettingsPage />}>
             <Route index element={<AccountInfoPage />} />

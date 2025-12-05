@@ -16,7 +16,7 @@ import { useDarkMode } from "../../hooks/useDarkMode";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const {isDark, toggleDarkMode} = useDarkMode();
+  const { isDark, toggleDarkMode } = useDarkMode();
 
   const handleLogout = async () => {
     try {
@@ -68,10 +68,11 @@ const Navbar = () => {
                 <ReceiptLongOutlinedIcon fontSize="inherit" />
                 Transactions
               </Link>
-              <p className={navItemClasses}>
+              <Link to="/accounts" className={navItemClasses}>
                 {" "}
                 <PeopleAltOutlinedIcon fontSize="inherit" /> Accounts
-              </p>
+              </Link>
+
               <Link to="/analytics" className={navItemClasses}>
                 <AnalyticsOutlinedIcon fontSize="inherit" /> Analytics
               </Link>
