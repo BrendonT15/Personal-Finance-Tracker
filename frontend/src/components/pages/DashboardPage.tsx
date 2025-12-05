@@ -139,7 +139,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="p-4 col gap-4">
+    <div className="p-4 col gap-4 min-h-screen">
       <h2 className="text-4xl font-medium mb-4">
         Dashboard - Welcome {firstName}
       </h2>
@@ -184,7 +184,7 @@ const DashboardPage = () => {
         />
       </div>
 
-      <div className="border border-gray-200 rounded-md h-full p-4 mt-4">
+      <div className="border border-gray-200 rounded-md h-full p-4">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
             data={monthlyData.length > 0 ? monthlyData : [
@@ -245,18 +245,18 @@ const DashboardPage = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestAreaChart />
         </div>
       </div>
 
       <div className="grid grid-cols-[25%_auto] gap-1">
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestPosNegBarChart />
         </div>
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestRadarChart />
         </div>

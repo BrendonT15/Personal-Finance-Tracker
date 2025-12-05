@@ -25,5 +25,5 @@
 }
 
 .primary-bg-color { 
-  @apply bg-purple-500
+  @apply bg-purple-500 
 }

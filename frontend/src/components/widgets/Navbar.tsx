@@ -12,12 +12,26 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDarkMode } from "../../hooks/useDarkMode";
+import { useState } from "react";
+import useDarkReader from "../../hooks/useDarkReader";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isDark, toggleDarkMode } = useDarkMode();
 
+  // ---- DARK MODE STATE ----
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("darkmode") === "true"
+  );
+
+  useDarkReader(isDark);
+
+  const toggleDarkMode = () => {
+    const next = !isDark;
+    setIsDark(next);
+    localStorage.setItem("darkmode", String(next));
+  };
+
+  // ---- LOGOUT ----
   const handleLogout = async () => {
     try {
       const sessionString = localStorage.getItem("session");
@@ -28,17 +42,13 @@ const Navbar = () => {
         "http://localhost:8000/auth/signout",
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
 
       localStorage.clear();
-
       navigate("/signin", { replace: true });
-
       window.location.reload();
     } catch (err) {
       console.error("Logout failed:", err);
@@ -47,8 +57,9 @@ const Navbar = () => {
       window.location.reload();
     }
   };
+
   const navItemClasses =
-    "flex items-center gap-1 cursor-pointer  hover:bg-purple-100 hover:text-purple-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
+    "flex items-center gap-1 cursor-pointer hover:bg-purple-100 hover:text-purple-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
 
   return (
     <div className="col gap-4 h-full">
@@ -64,35 +75,42 @@ const Navbar = () => {
                 <DashboardOutlinedIcon fontSize="inherit" />
                 Dashboard
               </Link>
+
               <Link to="/transactions" className={navItemClasses}>
                 <ReceiptLongOutlinedIcon fontSize="inherit" />
                 Transactions
               </Link>
+
               <Link to="/accounts" className={navItemClasses}>
-                {" "}
-                <PeopleAltOutlinedIcon fontSize="inherit" /> Accounts
+                <PeopleAltOutlinedIcon fontSize="inherit" />
+                Accounts
               </Link>
 
               <Link to="/analytics" className={navItemClasses}>
-                <AnalyticsOutlinedIcon fontSize="inherit" /> Analytics
+                <AnalyticsOutlinedIcon fontSize="inherit" />
+                Analytics
               </Link>
+
               <Link to="/budget" className={navItemClasses}>
-                <SportsScoreOutlinedIcon fontSize="inherit" /> Budget
+                <SportsScoreOutlinedIcon fontSize="inherit" />
+                Budget
               </Link>
             </div>
           </div>
 
           <div className="col-1">
             <h4 className="text-gray-400 tracking-tigher text-xs">SYSTEM</h4>
+
             <div className="col-1 text-gray-500 text-sm">
               <Link to="settings" className={navItemClasses}>
                 <SettingsOutlinedIcon fontSize="inherit" />
                 Settings
               </Link>
 
+              {/* ---- DARK MODE BUTTON ---- */}
               <p className={navItemClasses} onClick={toggleDarkMode}>
                 <DarkModeOutlinedIcon fontSize="inherit" />
-                Dark Mode
+                {isDark ? "Light Mode" : "Dark Mode"}
               </p>
             </div>
           </div>

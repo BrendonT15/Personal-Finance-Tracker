@@ -1,4 +1,4 @@
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 const data = [
   {
@@ -41,14 +41,23 @@ const data = [
 
 const TestRadarChart = () => {
   return (
-      <ResponsiveContainer width="100%" height={300}>
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="subject" />
-          <PolarRadiusAxis />
-          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-        </RadarChart>
-      </ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={250}>
+      <RadarChart data={data}>
+        {/* UPDATE THESE LINES */}
+        <PolarGrid stroke="var(--grid-color)" />
+        <PolarAngleAxis dataKey="subject" stroke="var(--axis-color)" />
+        <PolarRadiusAxis stroke="var(--axis-color)" />
+        <Tooltip 
+          contentStyle={{ 
+            backgroundColor: 'var(--tooltip-bg)',
+            border: '1px solid var(--tooltip-border)',
+            color: 'var(--tooltip-text)'
+          }}
+        />
+        
+        <Radar name="Score" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+      </RadarChart>
+    </ResponsiveContainer>
     );
 };
 
