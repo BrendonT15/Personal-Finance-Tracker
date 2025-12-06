@@ -22,7 +22,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
       try {
         const sessionData = JSON.parse(session);
-        // Check if session has access_token (it's inside the session object)
         if (sessionData.access_token) {
           setIsAuthenticated(true);
         } else {
@@ -48,7 +47,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!isAuthenticated) {
-    // Clear any stale data
     localStorage.removeItem("session");
     localStorage.removeItem("user");
     return <Navigate to="/signin" replace />;

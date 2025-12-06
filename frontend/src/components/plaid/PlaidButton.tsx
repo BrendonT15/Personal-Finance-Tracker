@@ -8,22 +8,20 @@ const PlaidButton = () => {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for existing session on mount
     const getSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      console.log("Session retrieved:", session); // ✅ Check session
+      console.log("Session retrieved:", session); 
       if (session?.user) {
-        console.log("User ID found:", session.user.id); // ✅ Check user ID
+        console.log("User ID found:", session.user.id); 
         setUserId(session.user.id);
       } else {
-        console.log("No user session found"); // ✅ No session
+        console.log("No user session found"); 
       }
     };
     getSession();
 
-    // Listen for session changes (login/logout)
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session?.user) setUserId(session.user.id);
@@ -37,8 +35,7 @@ const PlaidButton = () => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect triggered. userId:", userId); // ✅ Check if effect runs
-    
+    console.log("useEffect triggered. userId:", userId); 
     if (!userId) {
       console.log("Skipping link token creation - no userId");
       return;
@@ -53,13 +50,13 @@ const PlaidButton = () => {
             user_id: userId,
           }
         );
-        console.log("Full response:", res.data); // ✅ See full response
+        console.log("Full response:", res.data); 
         console.log("Link token received:", res.data.link_token);
         setLinkToken(res.data.link_token);
       } catch (err: any) {
         console.error("Failed to create link token:", err);
-        console.error("Error response:", err.response?.data); // ✅ Backend error details
-        console.error("Error status:", err.response?.status); // ✅ HTTP status
+        console.error("Error response:", err.response?.data);
+        console.error("Error status:", err.response?.status); 
       }
     };
 

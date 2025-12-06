@@ -1,11 +1,9 @@
-// src/components/DarkModeToggle.jsx
 import { useState } from "react";
 import useDarkReader from "../../../hooks/useDarkReader";
 
 export default function DarkModeToggle() {
   const [dark, setDark] = useState(false);
 
-  // Run Darkreader whenever dark value changes
   const active = useDarkReader(dark);
 
   return (

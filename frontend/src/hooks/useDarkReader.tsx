@@ -1,4 +1,3 @@
-// src/hooks/useDarkReader.js
 import { useEffect } from "react";
 import {
   enable as enableDarkMode,

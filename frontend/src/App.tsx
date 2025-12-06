@@ -3,8 +3,6 @@ import SignInPage from "./components/pages/SignInPage";
 import AnalyticsPage from "./components/pages/AnalyticsPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AccountsPage from "./components/pages/AccountsPage";
-
-
 import {
   BrowserRouter as Router,
   Routes,

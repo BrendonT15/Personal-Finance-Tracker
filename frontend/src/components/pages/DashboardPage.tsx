@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ConnectBankBanner from "../widgets/ConnectBankBanner";
 import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
@@ -36,6 +37,8 @@ const DashboardPage = () => {
   const [categoryData, setCategoryData] = useState<any[]>([]);
   const [monthlyData, setMonthlyData] = useState<any[]>([]);
 
+  const [hasBankAccount, setHasBankAccount] = useState<boolean>(false);
+
   useEffect(() => {
     const userString = localStorage.getItem("user");
     if (userString) {
@@ -65,8 +68,11 @@ const DashboardPage = () => {
 
       if (error || !plaidItems || plaidItems.length === 0) {
         console.log("No Plaid items found");
+        setHasBankAccount(false);
         return;
       }
+
+      setHasBankAccount(true);
 
       const accessToken = plaidItems[0].access_token;
 
@@ -106,7 +112,7 @@ const DashboardPage = () => {
       transactions.forEach((txn: any) => {
         if (txn.amount > 0) {
           totalSpending += txn.amount;
-          
+
           // Group by category
           const category = txn.category?.[0] || "Other";
           categoryMap[category] = (categoryMap[category] || 0) + txn.amount;
@@ -119,10 +125,12 @@ const DashboardPage = () => {
       setIncome(totalIncome);
 
       // Convert category map to array for pie chart
-      const categoryArray = Object.entries(categoryMap).map(([name, value]) => ({
-        name,
-        value,
-      }));
+      const categoryArray = Object.entries(categoryMap).map(
+        ([name, value]) => ({
+          name,
+          value,
+        })
+      );
       setCategoryData(categoryArray);
 
       console.log("📈 PROCESSED DATA:", {
@@ -132,7 +140,6 @@ const DashboardPage = () => {
         totalIncome,
         categories: categoryArray,
       });
-
     } catch (err) {
       console.error("Error fetching Plaid data:", err);
     }
@@ -144,7 +151,13 @@ const DashboardPage = () => {
         Dashboard - Welcome {firstName}
       </h2>
 
-      <PlaidButton onSuccess={fetchPlaidData} />
+      {!hasBankAccount && (
+        <div className="mb-4">
+          <ConnectBankBanner>
+            <PlaidButton onSuccess={fetchPlaidData} />
+          </ConnectBankBanner>
+        </div>
+      )}
 
       <div className="flex items-center gap-2">
         <StatWidget
@@ -164,7 +177,7 @@ const DashboardPage = () => {
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
         />
-        
+
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Spending"
@@ -173,7 +186,7 @@ const DashboardPage = () => {
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
         />
-        
+
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Income"
@@ -187,11 +200,15 @@ const DashboardPage = () => {
       <div className="border border-gray-200 rounded-md h-full p-4">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            data={monthlyData.length > 0 ? monthlyData : [
-              { name: "Jan", uv: 400, pv: 2400 },
-              { name: "Feb", uv: 300, pv: 1398 },
-              { name: "Mar", uv: 200, pv: 9800 },
-            ]}
+            data={
+              monthlyData.length > 0
+                ? monthlyData
+                : [
+                    { name: "Jan", uv: 400, pv: 2400 },
+                    { name: "Feb", uv: 300, pv: 1398 },
+                    { name: "Mar", uv: 200, pv: 9800 },
+                  ]
+            }
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
@@ -223,16 +240,21 @@ const DashboardPage = () => {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={categoryData.length > 0 ? categoryData : [
-                  { name: "No data", value: 100 }
-                ]}
+                data={
+                  categoryData.length > 0
+                    ? categoryData
+                    : [{ name: "No data", value: 100 }]
+                }
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
                 dataKey="value"
                 label
               >
-                {(categoryData.length > 0 ? categoryData : [{ name: "No data", value: 100 }]).map((entry, index) => (
+                {(categoryData.length > 0
+                  ? categoryData
+                  : [{ name: "No data", value: 100 }]
+                ).map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={pieColors[index % pieColors.length]}
@@ -245,18 +267,18 @@ const DashboardPage = () => {
           </ResponsiveContainer>
         </div>
 
-         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestAreaChart />
         </div>
       </div>
 
       <div className="grid grid-cols-[25%_auto] gap-1">
-         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestPosNegBarChart />
         </div>
-         <div className="border border-gray-200 rounded-md h-full p-4 w-full">
+        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
           <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
           <TestRadarChart />
         </div>
