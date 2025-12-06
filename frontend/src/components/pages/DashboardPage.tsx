@@ -4,6 +4,10 @@ import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
   TrendingUpOutlined,
+  SavingsOutlined,
+  ReceiptOutlined,
+  AccountBalanceOutlined,
+  RemoveOutlined,
 } from "@mui/icons-material";
 import StatWidget from "../widgets/StatWidget";
 import {
@@ -23,21 +27,13 @@ import TestAreaChart from "../widgets/charts/TestAreaChart";
 import TestPosNegBarChart from "../widgets/charts/TestPosNegBarChart";
 import TestRadarChart from "./TestRadarChart";
 import PlaidButton from "../plaid/PlaidButton";
-import { supabase } from "../../services/supabaseClient";
-import axios from "axios";
+import { usePlaidData } from "../../hooks/usePlaidData";
 
 const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const DashboardPage = () => {
   const [firstName, setFirstName] = useState<string>("");
-  const [accountBalance, setAccountBalance] = useState<number>(0);
-  const [transactionCount, setTransactionCount] = useState<number>(0);
-  const [spending, setSpending] = useState<number>(0);
-  const [income, setIncome] = useState<number>(0);
-  const [categoryData, setCategoryData] = useState<any[]>([]);
-  const [monthlyData, setMonthlyData] = useState<any[]>([]);
-
-  const [hasBankAccount, setHasBankAccount] = useState<boolean>(false);
+  const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
 
   useEffect(() => {
     const userString = localStorage.getItem("user");
@@ -45,105 +41,27 @@ const DashboardPage = () => {
       const user = JSON.parse(userString);
       setFirstName(user.user_metadata?.first_name || "User");
     }
-
-    // Fetch Plaid data on mount
-    fetchPlaidData();
   }, []);
 
-  const fetchPlaidData = async () => {
-    try {
-      // Get user session
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session?.user) return;
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-gray-500">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
 
-      // Get access token from database
-      const { data: plaidItems, error } = await supabase
-        .from("plaid_items")
-        .select("access_token")
-        .eq("user_id", session.user.id)
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (error || !plaidItems || plaidItems.length === 0) {
-        console.log("No Plaid items found");
-        setHasBankAccount(false);
-        return;
-      }
-
-      setHasBankAccount(true);
-
-      const accessToken = plaidItems[0].access_token;
-
-      // Fetch accounts
-      const accountsRes = await axios.post(
-        "http://localhost:8000/api/get-accounts",
-        { access_token: accessToken }
-      );
-
-      console.log("📊 ACCOUNTS DATA:", accountsRes.data);
-
-      // Calculate total balance
-      const totalBalance = accountsRes.data.accounts.reduce(
-        (sum: number, account: any) => {
-          return sum + (account.balances.current || 0);
-        },
-        0
-      );
-      setAccountBalance(totalBalance);
-
-      // Fetch transactions
-      const transactionsRes = await axios.post(
-        "http://localhost:8000/api/get-transactions",
-        { access_token: accessToken }
-      );
-
-      console.log("💰 TRANSACTIONS DATA:", transactionsRes.data);
-
-      const transactions = transactionsRes.data.transactions;
-      setTransactionCount(transactions.length);
-
-      // Calculate spending and income
-      let totalSpending = 0;
-      let totalIncome = 0;
-      const categoryMap: { [key: string]: number } = {};
-
-      transactions.forEach((txn: any) => {
-        if (txn.amount > 0) {
-          totalSpending += txn.amount;
-
-          // Group by category
-          const category = txn.category?.[0] || "Other";
-          categoryMap[category] = (categoryMap[category] || 0) + txn.amount;
-        } else {
-          totalIncome += Math.abs(txn.amount);
-        }
-      });
-
-      setSpending(totalSpending);
-      setIncome(totalIncome);
-
-      // Convert category map to array for pie chart
-      const categoryArray = Object.entries(categoryMap).map(
-        ([name, value]) => ({
-          name,
-          value,
-        })
-      );
-      setCategoryData(categoryArray);
-
-      console.log("📈 PROCESSED DATA:", {
-        totalBalance,
-        transactionCount: transactions.length,
-        totalSpending,
-        totalIncome,
-        categories: categoryArray,
-      });
-    } catch (err) {
-      console.error("Error fetching Plaid data:", err);
-    }
-  };
+  if (error) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-red-500">Error: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 col gap-4 min-h-screen">
@@ -154,16 +72,17 @@ const DashboardPage = () => {
       {!hasBankAccount && (
         <div className="mb-4">
           <ConnectBankBanner>
-            <PlaidButton onSuccess={fetchPlaidData} />
+            <PlaidButton onSuccess={refetch} />
           </ConnectBankBanner>
         </div>
       )}
 
+      {/* First Row - Original 4 Widgets */}
       <div className="flex items-center gap-2">
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Account Balance"
-          widgetValue={accountBalance}
+          widgetValue={metrics.totalBalance}
           widgetPercentChange={6.5}
           widgetPercentIcon={TrendingUpOutlined}
           percentColor="text-green-500"
@@ -172,7 +91,7 @@ const DashboardPage = () => {
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Transactions"
-          widgetValue={transactionCount}
+          widgetValue={metrics.transactionCount}
           widgetPercentChange={-2.5}
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
@@ -181,7 +100,7 @@ const DashboardPage = () => {
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Spending"
-          widgetValue={spending}
+          widgetValue={metrics.spending}
           widgetPercentChange={-2.5}
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
@@ -190,25 +109,60 @@ const DashboardPage = () => {
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Income"
-          widgetValue={income}
+          widgetValue={metrics.income}
           widgetPercentChange={8.2}
           widgetPercentIcon={TrendingUpOutlined}
           percentColor="text-green-500"
+        />
+
+        <StatWidget
+          widgetIcon={SavingsOutlined}
+          widgetTitle="Savings Rate"
+          widgetValue={metrics.savingsRate}
+          isPercentage={true}
+          widgetPercentChange={2.1}
+          widgetPercentIcon={TrendingUpOutlined}
+          percentColor="text-green-500"
+        />
+
+        <StatWidget
+          widgetIcon={AccountBalanceOutlined}
+          widgetTitle="Net Cash Flow"
+          widgetValue={metrics.netCashFlow}
+          widgetPercentChange={3.5}
+          widgetPercentIcon={
+            metrics.netCashFlow >= 0 ? TrendingUpOutlined : TrendingDownOutlined
+          }
+          percentColor={metrics.netCashFlow >= 0 ? "text-green-500" : "text-red-500"}
+        />
+
+        <StatWidget
+          widgetIcon={ReceiptOutlined}
+          widgetTitle="Avg Transaction"
+          widgetValue={metrics.spending / (metrics.transactionCount || 1)}
+          widgetPercentChange={-1.2}
+          widgetPercentIcon={TrendingDownOutlined}
+          percentColor="text-red-500"
+        />
+
+        <StatWidget
+          widgetIcon={RemoveOutlined}
+          widgetTitle="Subscriptions"
+          widgetValue={0}
+          widgetPercentChange={0}
+          widgetPercentIcon={RemoveOutlined}
+          percentColor="text-gray-500"
         />
       </div>
 
       <div className="border border-gray-200 rounded-md h-full p-4">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            data={
-              monthlyData.length > 0
-                ? monthlyData
-                : [
-                    { name: "Jan", uv: 400, pv: 2400 },
-                    { name: "Feb", uv: 300, pv: 1398 },
-                    { name: "Mar", uv: 200, pv: 9800 },
-                  ]
-            }
+            data={[
+              { name: "Jan", uv: 400, pv: 2400 },
+              { name: "Feb", uv: 300, pv: 1398 },
+              { name: "Mar", uv: 200, pv: 9800 },
+            ]}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
@@ -241,8 +195,8 @@ const DashboardPage = () => {
             <PieChart>
               <Pie
                 data={
-                  categoryData.length > 0
-                    ? categoryData
+                  metrics.categoryData.length > 0
+                    ? metrics.categoryData
                     : [{ name: "No data", value: 100 }]
                 }
                 cx="50%"
@@ -251,8 +205,8 @@ const DashboardPage = () => {
                 dataKey="value"
                 label
               >
-                {(categoryData.length > 0
-                  ? categoryData
+                {(metrics.categoryData.length > 0
+                  ? metrics.categoryData
                   : [{ name: "No data", value: 100 }]
                 ).map((entry, index) => (
                   <Cell

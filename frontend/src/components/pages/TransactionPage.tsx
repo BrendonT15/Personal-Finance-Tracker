@@ -1,61 +1,37 @@
 import TransactionButton from "../widgets/buttons/TransactionButton";
-
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-
 import TransactionTable from "../widgets/TransactionTable";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { supabase } from "../../services/supabaseClient";
+import { useState } from "react";
+import { usePlaidData } from "../../hooks/usePlaidData";
 
 const TransactionPage = () => {
-  const [transactionCount, setTransactionCount] = useState<number>(0);
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const { metrics, transactions, isLoading, error } = usePlaidData();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
-
-  const fetchTransactions = async () => {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (!session?.user) {
-        return;
-      }
-
-      const { data: plaidItems, error } = await supabase
-        .from("plaid_items")
-        .select("access_token")
-        .eq("user_id", session.user.id)
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (error || !plaidItems || plaidItems.length === 0) {
-        return;
-      }
-
-      const accessToken = plaidItems[0].access_token;
-
-      const transactionsRes = await axios.post(
-        "http://localhost:8000/api/get-transactions",
-        { access_token: accessToken }
-      );
-
-      const txns = transactionsRes.data.transactions;
-      setTransactions(txns);
-      setTransactionCount(txns.length);
-
-      console.log("Fetched transactions:", txns);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const transactionCount = metrics.transactionCount;
   const pendingCount = transactions.filter(t => t.pending).length;
+
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-gray-500">Loading transactions...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-red-500">Error: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -73,8 +49,8 @@ const TransactionPage = () => {
             </div>
           </button>
           <TransactionButton buttonTitle="Pending" badgeValue={pendingCount} />
-         
         </div>
+
         <div className="flex items-center justify-between gap-2">
           <div className="bg-gray-100 p-2 rounded-sm flex items-center gap-2 w-full">
             <SearchOutlinedIcon className="text-gray-500" fontSize="small" />
@@ -83,15 +59,17 @@ const TransactionPage = () => {
               type="text"
               placeholder="Search for transaction ID, amount, date"
               className="bg-gray-100 focus:outline-none flex-1 text-sm text-gray-500"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className="flex items-center gap-1">
-            <button className="bg-purple-800 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+            <button className="bg-gray-700 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
               <TuneOutlinedIcon className="text-white " fontSize="inherit" />
               <p className="text-white  text-sm">Filter</p>
             </button>
 
-            <button className="bg-purple-800 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+            <button className="bg-gray-700 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
               <FileUploadOutlinedIcon
                 className="text-white "
                 fontSize="inherit"

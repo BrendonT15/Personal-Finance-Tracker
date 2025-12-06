@@ -3,7 +3,7 @@ import { usePlaidLink } from "react-plaid-link";
 import axios from "axios";
 import { supabase } from "../../services/supabaseClient";
 
-const PlaidButton = () => {
+const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {  // ← Add this prop
   const [linkToken, setLinkToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -72,6 +72,7 @@ const PlaidButton = () => {
           user_id: userId,
         });
         alert("Bank connected successfully!");
+        onSuccess?.();  // ← Call the callback here to refresh dashboard data
       } catch (err) {
         console.error("Failed to exchange public token:", err);
       }
@@ -89,9 +90,9 @@ const PlaidButton = () => {
         }
       }}
       disabled={!ready}
-      className="border rounded-md p-1 cursor-pointer w-fit"
+      className="text-white bg-gray-700 rounded-md p-1 cursor-pointer w-fit"
     >
-      Connect Bank (sandbox) {!ready && "(Loading...)"}
+      Connect Bank
     </button>
   );
 };
