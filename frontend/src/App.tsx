@@ -20,16 +20,31 @@ import NotificationPage from "./components/pages/settings/NotificationPage";
 import AuthCallback from "./services/AuthCallback";
 import LandingPage from "./components/pages/LandingPage";
 
+import Lenis from "@studio-freight/lenis";
+import { useEffect } from "react";
+
 function App() {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
   return (
     <div>
       <Router>
         <Routes>
           <Route path="/create-account" element={<CreateAccountPage />} />
           <Route path="/signin" element={<SignInPage />} />
-          <Route path="/auth/callback" element={<AuthCallback/>}/>
-          <Route path="/" element={<LandingPage/>}/>
-
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/" element={<LandingPage />} />
 
           <Route
             path="/"
@@ -44,7 +59,6 @@ function App() {
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="budget" element={<BudgetPage />} />
             <Route path="accounts" element={<AccountsPage />} />
-
 
             <Route path="settings" element={<SettingsPage />}>
               <Route index element={<AccountInfoPage />} />
