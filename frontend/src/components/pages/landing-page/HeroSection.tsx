@@ -1,6 +1,7 @@
 import Header from "./Header";
 import test from "../../../assets/1.jpg";
 import ImageLiquidDistortion from "../../../animations/ImageLiquidDistortion";
+import { Link } from "react-router-dom";
 
 import gsap from "gsap";
 import { useRef, useEffect } from "react";
@@ -63,7 +64,7 @@ const HeroSection = () => {
               sint nam?
             </h1>
             <button className="rounded-2xl text-white border border-white px-3 py-1 font-light cursor-pointer pointer-events-auto">
-              Get Started
+              <Link to="/create-account">Get Started</Link>
             </button>
           </div>
 
