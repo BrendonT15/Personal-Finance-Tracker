@@ -99,7 +99,7 @@ const TransactionRow = ({
   return (
     <>
       <div
-        className="p-4 border-b border-gray-200  grid grid-cols-8  gap-1 hover:bg-gray-50 cursor-pointer"
+        className="p-4 border-b border-gray-200  grid grid-cols-7  gap-1 hover:bg-gray-50 cursor-pointer"
         onClick={toggleMenu}
       >
         <div className={transactionRowClasses}>
@@ -123,9 +123,7 @@ const TransactionRow = ({
         <div className={transactionRowClasses}>
           <p>${price.toFixed(2)}</p>
         </div>
-        <div className={transactionRowClasses}>
-          <MoreHorizOutlinedIcon fontSize="inherit" className="text-gray-400" />
-        </div>
+       
       </div>
 
       <div
