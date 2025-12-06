@@ -21,6 +21,7 @@
     "darkreader": "^4.9.117",
     "dotenv": "^17.2.3",
     "gsap": "^3.13.0",
+    "ogl": "^1.0.11",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-plaid-link": "^4.1.1",

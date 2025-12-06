@@ -155,20 +155,20 @@ app.post("/api/exchange-public-token", async (req, res) => {
 });
 
 app.post("/api/get-accounts", async (req, res) => {
-  const { access_token } = req.body; 
+  const { access_token } = req.body;
 
   try {
     const accountsResponse = await client.accountsGet({
-      access_token, 
+      access_token,
     });
 
     console.log("=== ACCOUNT INFO ===");
     console.log(JSON.stringify(accountsResponse.data, null, 2));
-    
-    res.json(accountsResponse.data); 
+
+    res.json(accountsResponse.data);
   } catch (err) {
     console.error("Error fetching accounts:", err);
-    res.status(500).send("Failed to fetch accounts"); 
+    res.status(500).send("Failed to fetch accounts");
   }
 });
 
@@ -191,10 +191,10 @@ app.post("/api/get-transactions", async (req, res) => {
     console.log("=== TRANSACTIONS ===");
     console.log(JSON.stringify(transactionsResponse.data, null, 2));
 
-    res.json(transactionsResponse.data); 
+    res.json(transactionsResponse.data);
   } catch (err) {
     console.error("Error fetching transactions:", err);
-    res.status(500).send("Failed to fetch transactions"); 
+    res.status(500).send("Failed to fetch transactions");
   }
 });
 
@@ -215,6 +215,34 @@ app.post("/api/get-item", async (req, res) => {
     res.status(500).send("Failed to fetch item");
   }
 });
+
+app.post("/api/disconnect-plaid", async (req, res) => {
+  try {
+    const { user_id } = req.body;
+
+    const { data, error } = await supabase
+      .from("plaid_items")
+      .select("access_token")
+      .eq("user_id", user_id)
+      .single();
+
+    if (!data || error) {
+      return res.status(404).json({ error: "No bank connected" });
+    }
+
+    const accessToken = data.access_token;
+
+    await client.itemRemove({ access_token: accessToken });
+
+    await supabase.from("plaid_items").delete().eq("user_id", user_id);
+
+    res.json({ success: true, message: "Bank disconnected" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to disconnect bank" });
+  }
+});
+
 
 const PORT = process.env.PORT || 8000;
 

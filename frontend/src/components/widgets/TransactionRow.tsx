@@ -1,4 +1,3 @@
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import CategoryLabel from "./CategoryLabel";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
@@ -99,7 +98,7 @@ const TransactionRow = ({
   return (
     <>
       <div
-        className="p-4 border-b border-gray-200  grid grid-cols-7  gap-1 hover:bg-gray-50 cursor-pointer"
+        className="p-4 border-b border-gray-200  grid grid-cols-7  hover:bg-gray-50 cursor-pointer"
         onClick={toggleMenu}
       >
         <div className={transactionRowClasses}>

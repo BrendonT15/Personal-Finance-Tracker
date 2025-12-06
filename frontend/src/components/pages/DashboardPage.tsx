@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ConnectBankBanner from "../widgets/ConnectBankBanner";
+import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
@@ -65,8 +66,13 @@ const DashboardPage = () => {
 
   return (
     <div className="p-4 col gap-4 min-h-screen">
-      <h2 className="text-4xl font-medium mb-4">
+      <h2 className="text-4xl font-medium mb-4 flex items-center gap-3">
         Dashboard - Welcome {firstName}
+        {hasBankAccount ? (
+          <PlaidDisconnectButton onDisconnect={refetch} />
+        ) : (
+          <PlaidButton onSuccess={refetch} />
+        )}
       </h2>
 
       {!hasBankAccount && (
@@ -133,7 +139,9 @@ const DashboardPage = () => {
           widgetPercentIcon={
             metrics.netCashFlow >= 0 ? TrendingUpOutlined : TrendingDownOutlined
           }
-          percentColor={metrics.netCashFlow >= 0 ? "text-green-500" : "text-red-500"}
+          percentColor={
+            metrics.netCashFlow >= 0 ? "text-green-500" : "text-red-500"
+          }
         />
 
         <StatWidget
