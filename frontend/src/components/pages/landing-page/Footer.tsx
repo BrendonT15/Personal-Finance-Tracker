@@ -97,10 +97,14 @@ const Footer = () => {
   return (
     <footer className="p-8 h-screen flex flex-col justify-between bg-neutral-800">
       <div className="grid grid-cols-[50%_25%_25%]">
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-6">
           <h4 className="text-3xl font-semibold w-1/2 text-slate-50">
-            A sandbox is a testing environment in a computer system in which new
-            or untested software can be run securely.
+            The modern way to manage money 
+          </h4>
+          <h4 className="text-3xl font-semibold w-1/2 text-slate-50">
+           BAT will change the way you
+            organize your financial life. Track, budget, plan, and do more with
+            your money - together. or untested software can be run securely.
           </h4>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 text-slate-50">
@@ -149,7 +153,7 @@ const Footer = () => {
           className="text-slate-50 font-black tracking-wider text-[240px] flex items-center justify-center leading-none"
           ref={textRef}
         >
-          SANDBVOX{" "}
+          BAT
         </h1>
         <div
           className="flex items-center justify-center text-slate-50 text-sm"
