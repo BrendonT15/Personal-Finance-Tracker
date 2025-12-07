@@ -22,11 +22,10 @@ import {
   PieChart,
   Pie,
   Cell,
+  BarChart,
+  Bar,
+  ReferenceLine,
 } from "recharts";
-import TestAreaChart from "../widgets/charts/TestAreaChart";
-import TestPosNegBarChart from "../widgets/charts/TestPosNegBarChart";
-import TestRadarChart from "./TestRadarChart";
-import PlaidButton from "../plaid/PlaidButton";
 import { usePlaidData } from "../../hooks/usePlaidData";
 import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 
@@ -34,13 +33,7 @@ const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const DashboardPage = () => {
   const [firstName, setFirstName] = useState<string>("");
-  const {
-    metrics,
-    hasBankAccount,
-    isLoading,
-    error,
-    refetch,
-  } = usePlaidData();
+  const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
 
   useEffect(() => {
     const userString = localStorage.getItem("user");
@@ -49,8 +42,6 @@ const DashboardPage = () => {
       setFirstName(user.user_metadata?.first_name || "User");
     }
   }, []);
-
-
 
   if (isLoading) {
     return (
@@ -73,7 +64,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="p-4 col gap-4 min-h-screen">
+    <div className="p-4 flex flex-col gap-4 min-h-screen">
       <h2 className="text-4xl font-medium mb-4 flex items-center gap-3">
         Dashboard - Welcome {firstName}
       </h2>
@@ -93,10 +84,10 @@ const DashboardPage = () => {
           </div>
         </div>
       ) : (
-        <ConnectBankBanner onSuccess={refetch} />  
-        )}
+        <ConnectBankBanner onSuccess={refetch} />
+      )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}
           widgetTitle="Account Balance"
@@ -104,6 +95,7 @@ const DashboardPage = () => {
           widgetPercentChange={6.5}
           widgetPercentIcon={TrendingUpOutlined}
           percentColor="text-green-500"
+          isCurrency={true}
         />
 
         <StatWidget
@@ -113,6 +105,7 @@ const DashboardPage = () => {
           widgetPercentChange={-2.5}
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
+          isCurrency={false}
         />
 
         <StatWidget
@@ -122,6 +115,7 @@ const DashboardPage = () => {
           widgetPercentChange={-2.5}
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
+          isCurrency={true}
         />
 
         <StatWidget
@@ -131,6 +125,7 @@ const DashboardPage = () => {
           widgetPercentChange={8.2}
           widgetPercentIcon={TrendingUpOutlined}
           percentColor="text-green-500"
+          isCurrency={true}
         />
 
         <StatWidget
@@ -141,6 +136,7 @@ const DashboardPage = () => {
           widgetPercentChange={2.1}
           widgetPercentIcon={TrendingUpOutlined}
           percentColor="text-green-500"
+          isCurrency={false}
         />
 
         <StatWidget
@@ -154,6 +150,7 @@ const DashboardPage = () => {
           percentColor={
             metrics.netCashFlow >= 0 ? "text-green-500" : "text-red-500"
           }
+          isCurrency={true}
         />
 
         <StatWidget
@@ -163,6 +160,7 @@ const DashboardPage = () => {
           widgetPercentChange={-1.2}
           widgetPercentIcon={TrendingDownOutlined}
           percentColor="text-red-500"
+          isCurrency={true}
         />
 
         <StatWidget
@@ -172,45 +170,56 @@ const DashboardPage = () => {
           widgetPercentChange={0}
           widgetPercentIcon={RemoveOutlined}
           percentColor="text-gray-500"
+          isCurrency={false}
         />
       </div>
 
-      <div className="border border-gray-200 rounded-md h-full p-4">
+      {/* Income vs Spending Over Time */}
+      <div className="border border-gray-200 rounded-md p-4">
+        <h3 className="text-lg font-medium mb-4">Income vs Spending Over Time</h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            data={[
-              { name: "Jan", uv: 400, pv: 2400 },
-              { name: "Feb", uv: 300, pv: 1398 },
-              { name: "Mar", uv: 200, pv: 9800 },
-            ]}
+            data={metrics.timeSeriesData || []}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={(date) => {
+                const d = new Date(date);
+                return `${d.getMonth() + 1}/${d.getDate()}`;
+              }}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip 
+              formatter={(value: number) => `$${value.toFixed(2)}`}
+              labelFormatter={(date) => new Date(date).toLocaleDateString()}
+            />
             <Legend />
             <Line
               type="monotone"
-              dataKey="uv"
-              stroke="#8884d8"
+              dataKey="spending"
+              stroke="#ef4444"
               strokeWidth={2}
               name="Spending"
+              dot={{ r: 3 }}
             />
             <Line
               type="monotone"
-              dataKey="pv"
-              stroke="#82ca9d"
+              dataKey="income"
+              stroke="#22c55e"
               strokeWidth={2}
               name="Income"
+              dot={{ r: 3 }}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="flex items-center justify-between gap-4 mt-4">
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
-          <h3 className="text-lg font-medium mb-2">Spending Breakdown</h3>
+      <div className="flex items-start justify-between gap-4">
+        {/* Spending Breakdown Pie Chart */}
+        <div className="border border-gray-200 rounded-md p-4 w-1/2">
+          <h3 className="text-lg font-medium mb-4">Spending by Category</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -223,7 +232,7 @@ const DashboardPage = () => {
                 cy="50%"
                 outerRadius={100}
                 dataKey="value"
-                label
+                label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
               >
                 {(metrics.categoryData.length > 0
                   ? metrics.categoryData
@@ -235,26 +244,45 @@ const DashboardPage = () => {
                   />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
-          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
-          <TestAreaChart />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-[25%_auto] gap-1">
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
-          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
-          <TestPosNegBarChart />
-        </div>
-        <div className="border border-gray-200 rounded-md h-full p-4 w-full">
-          <h3 className="text-lg font-medium mb-2">Test Area Chart</h3>
-          <TestRadarChart />
+        {/* Daily Cash Flow Bar Chart */}
+        <div className="border border-gray-200 rounded-md p-4 w-1/2">
+          <h3 className="text-lg font-medium mb-4">Daily Cash Flow</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={metrics.dailyCashFlow || []}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="date"
+                tickFormatter={(date) => {
+                  const d = new Date(date);
+                  return `${d.getMonth() + 1}/${d.getDate()}`;
+                }}
+              />
+              <YAxis />
+              <Tooltip 
+                formatter={(value: number) => `$${value.toFixed(2)}`}
+                labelFormatter={(date) => new Date(date).toLocaleDateString()}
+              />
+              <ReferenceLine y={0} stroke="#666" />
+              <Bar 
+                dataKey="amount" 
+                fill="#8884d8"
+                name="Net Cash Flow"
+              >
+                {(metrics.dailyCashFlow || []).map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.amount >= 0 ? "#22c55e" : "#ef4444"} 
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

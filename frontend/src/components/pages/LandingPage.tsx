@@ -1,12 +1,27 @@
-import Header from "./landing-page/Header";
 import Footer from "./landing-page/Footer";
 import HeroSection from "./landing-page/HeroSection";
 import WhoWeAre from "./landing-page/WhoWeAre";
 import OurPhilosphy from "./landing-page/OurPhilosophy";
 import Demo from "./landing-page/Demo";
+import { useEffect } from "react";
+import Lenis from "@studio-freight/lenis";
+
 import Reviews from "./landing-page/Reviews";
 
 const LandingPage = () => {
+
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
   return (
     <div className=" ">
       <HeroSection />

@@ -122,7 +122,6 @@ const TransactionRow = ({
         <div className={transactionRowClasses}>
           <p>${price.toFixed(2)}</p>
         </div>
-       
       </div>
 
       <div
@@ -144,18 +143,30 @@ const TransactionRow = ({
           </div>
 
           <div className="p-4 h-full col gap-2">
-            <h2 className="text-4xl font-medium">{transactionID}</h2>
+            <h2 className="text-4xl font-semibold">{transactionID}</h2>
 
             <div className="border border-gray-300 flex-1 flex flex-col rounded-md">
-              <p className="text-gray-400 text-xs uppercase font-medium tracking-tight border-b border-gray-300 p-4 w-full ">
+              <p className="text-gray-400 text-sm uppercase font-medium tracking-tight border-b border-gray-300 p-4 w-full ">
                 Transaction Detail
               </p>
 
-              <div className="p-4 grid grid-cols-2 gap-2 flex-1">
-                <div className="flex flex-col gap-2">
-                  <div className="">
-                    <p className="text-xs text-gray-400">Transaction Name</p>
-                    <p>{merchant}</p>
+              <div className="p-4 border-b border-gray-300">
+                <p className="text-4xl font-semibold">${price.toFixed(2)}</p>
+              </div>
+
+              <div className="p-4 grid grid-cols-2 gap-4 border-b border-gray-300">
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-2 ">
+                    {logo_url && (
+                      <img
+                        src={logo_url}
+                        className="object-cover rounded-md w-10 h-10"
+                      />
+                    )}
+                    <div className="">
+                      <p className="text-xs text-gray-400">Transaction Name</p>
+                      <p>{merchant}</p>
+                    </div>
                   </div>
                   <div className="">
                     <p className="text-xs text-gray-400">Date</p>
@@ -167,26 +178,19 @@ const TransactionRow = ({
                     <p>{paymentChannel}</p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-4">
                   <div className="">
                     <p className="text-xs text-gray-400">Transaction ID</p>
                     <p>{transactionID}</p>
-                    <div className="">
-                      <p className="text-xs text-gray-400">Website</p>
-                      <p>{website}</p>
-                    </div>
-                    <div className="">
-                      <p className="text-xs text-gray-400">Category</p>
-                      <p>{category}</p>
-                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  {" "}
-                  <p>Total</p>
-                  <p> ${price.toFixed(2)}</p>
+                  <div className="">
+                    <p className="text-xs text-gray-400">Website</p>
+                    <p>{website}</p>
+                  </div>
+                  <div className="">
+                    <p className="text-xs text-gray-400">Category</p>
+                    <p>{category}</p>
+                  </div>
                 </div>
               </div>
             </div>

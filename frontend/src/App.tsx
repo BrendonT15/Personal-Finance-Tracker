@@ -13,30 +13,15 @@ import TransactionPage from "./components/pages/TransactionPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import HomePageLayout from "./components/pages/HomePageLayout";
-import BudgetPage from "./components/pages/BudetPage";
+import BudgetPage from "./components/pages/BudgetPage";
 import AccountInfoPage from "./components/pages/settings/AccountInfoPage";
 import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage";
 import NotificationPage from "./components/pages/settings/NotificationPage";
 import AuthCallback from "./services/AuthCallback";
 import LandingPage from "./components/pages/LandingPage";
 
-import Lenis from "@studio-freight/lenis";
-import { useEffect } from "react";
 
-function App() {
-  useEffect(() => {
-    const lenis = new Lenis();
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
-  }, []);
-
+function App() {  
   return (
     <div>
       <Router>
