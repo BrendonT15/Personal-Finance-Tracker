@@ -10,12 +10,11 @@ const SettingsPage = () => {
   return (
     <div>
       <div className="p-4 grid grid-rows-[10%_auto] gap-1">
-        <div className="p-1">
+        <div className="">
           <h2 className="font-medium text-4xl">Settings</h2>
         </div>
-        <div className=" p-1 grid grid-cols-[20%_auto]">
+        <div className="mt-4 grid grid-cols-[20%_auto] h-full">
           <SettingsNavbar />
-
           <Outlet />
         </div>
       </div>

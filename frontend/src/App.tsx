@@ -19,9 +19,9 @@ import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage
 import NotificationPage from "./components/pages/settings/NotificationPage";
 import AuthCallback from "./services/AuthCallback";
 import LandingPage from "./components/pages/LandingPage";
+import ToS from "./components/pages/settings/ToS";
 
-
-function App() {  
+function App() {
   return (
     <div>
       <Router>
@@ -50,6 +50,7 @@ function App() {
               <Route path="account" element={<AccountInfoPage />} />
               <Route path="bank-account" element={<BankAccountInfoPage />} />
               <Route path="notifications" element={<NotificationPage />} />
+              <Route path="tos" element={<ToS />} />
             </Route>
           </Route>
 

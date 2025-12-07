@@ -65,12 +65,12 @@ const DashboardPage = () => {
 
   return (
     <div className="p-4 flex flex-col gap-4 min-h-screen">
-      <h2 className="text-4xl font-medium mb-4 flex items-center gap-3">
-        Dashboard - Welcome {firstName}
+      <h2 className="text-4xl font-medium flex items-center gap-3">
+        Dashboard
       </h2>
 
       {hasBankAccount ? (
-        <div className="border border-gray-200 rounded-md p-4 bg-green-50">
+        <div className="rounded-md p-4 bg-green-50">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-green-800">

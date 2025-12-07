@@ -57,7 +57,7 @@ const PlaidDisconnectButton = ({ onSuccess }: { onSuccess?: () => void }) => {
     <button
       onClick={handleDisconnect}
       disabled={isLoading}
-      className="text-white bg-red-600 hover:bg-red-700 disabled:bg-red-400 rounded-md px-4 py-2 cursor-pointer w-fit transition-colors"
+      className="text-white bg-red-600 hover:bg-red-700 disabled:bg-red-400 rounded-md px-2 py-1 cursor-pointer w-fit transition-colors"
     >
       {isLoading ? "Disconnecting..." : "Disconnect Bank"}
     </button>

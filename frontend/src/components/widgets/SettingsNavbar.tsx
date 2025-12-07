@@ -19,7 +19,7 @@ const SettingsNavbar = () => {
           <Link to="notifications" className={navItemClasses}>
             Notifications
           </Link>
-          <Link to="/budget" className={navItemClasses}>
+          <Link to="tos" className={navItemClasses}>
             Terms of Service
           </Link>
         </div>
