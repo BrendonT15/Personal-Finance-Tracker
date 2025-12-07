@@ -132,10 +132,7 @@ const OurValues = () => {
     <>
       <div className="w-full p-8">
         <div className="grid grid-cols-[25%_auto] gap-2">
-          <div className="flex gap-2">
-            &#183;
-            <p className="font-light">OUR VALUES</p>
-          </div>
+          <p className="font-light">OUR VALUES</p>
 
           <div
             ref={containerRef}
@@ -151,7 +148,7 @@ const OurValues = () => {
                   <div className="border border-b border-black"></div>
 
                   <div
-                    className="between cursor-pointer py-4"
+                    className="flex items-center justify-between cursor-pointer py-4"
                     onClick={() => toggleExpand(index)}
                   >
                     <h2

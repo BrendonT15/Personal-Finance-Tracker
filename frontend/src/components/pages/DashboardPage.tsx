@@ -10,26 +10,13 @@ import {
   RemoveOutlined,
 } from "@mui/icons-material";
 import StatWidget from "../widgets/StatWidget";
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  ReferenceLine,
-} from "recharts";
+
 import { usePlaidData } from "../../hooks/usePlaidData";
 import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
+import IncomeSpendingChart from "../widgets/charts/IncomeSpendingChart";
+import SpendingPieChart from "../widgets/charts/SpendingPieChart";
+import DailyCashflowChart from "../widgets/charts/DailyCashflowChart";
 
-const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const DashboardPage = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -174,117 +161,13 @@ const DashboardPage = () => {
         />
       </div>
 
-      {/* Income vs Spending Over Time */}
-      <div className="border border-gray-200 rounded-md p-4">
-        <h3 className="text-lg font-medium mb-4">Income vs Spending Over Time</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart
-            data={metrics.timeSeriesData || []}
-            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-          >
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis 
-              dataKey="date" 
-              tickFormatter={(date) => {
-                const d = new Date(date);
-                return `${d.getMonth() + 1}/${d.getDate()}`;
-              }}
-            />
-            <YAxis />
-            <Tooltip 
-              formatter={(value: number) => `$${value.toFixed(2)}`}
-              labelFormatter={(date) => new Date(date).toLocaleDateString()}
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="spending"
-              stroke="#ef4444"
-              strokeWidth={2}
-              name="Spending"
-              dot={{ r: 3 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="income"
-              stroke="#22c55e"
-              strokeWidth={2}
-              name="Income"
-              dot={{ r: 3 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      <IncomeSpendingChart data={metrics.timeSeriesData} />
 
-      <div className="flex items-start justify-between gap-4">
-        {/* Spending Breakdown Pie Chart */}
-        <div className="border border-gray-200 rounded-md p-4 w-1/2">
-          <h3 className="text-lg font-medium mb-4">Spending by Category</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={
-                  metrics.categoryData.length > 0
-                    ? metrics.categoryData
-                    : [{ name: "No data", value: 100 }]
-                }
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                dataKey="value"
-                label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}
-              >
-                {(metrics.categoryData.length > 0
-                  ? metrics.categoryData
-                  : [{ name: "No data", value: 100 }]
-                ).map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={pieColors[index % pieColors.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+      <SpendingPieChart data={metrics.categoryData} />
 
-        {/* Daily Cash Flow Bar Chart */}
-        <div className="border border-gray-200 rounded-md p-4 w-1/2">
-          <h3 className="text-lg font-medium mb-4">Daily Cash Flow</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={metrics.dailyCashFlow || []}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="date"
-                tickFormatter={(date) => {
-                  const d = new Date(date);
-                  return `${d.getMonth() + 1}/${d.getDate()}`;
-                }}
-              />
-              <YAxis />
-              <Tooltip 
-                formatter={(value: number) => `$${value.toFixed(2)}`}
-                labelFormatter={(date) => new Date(date).toLocaleDateString()}
-              />
-              <ReferenceLine y={0} stroke="#666" />
-              <Bar 
-                dataKey="amount" 
-                fill="#8884d8"
-                name="Net Cash Flow"
-              >
-                {(metrics.dailyCashFlow || []).map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={entry.amount >= 0 ? "#22c55e" : "#ef4444"} 
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      <DailyCashflowChart data={metrics.dailyCashFlow} />
+
+      <div className="border p-4">transactions</div>
     </div>
   );
 };

@@ -19,7 +19,7 @@ import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage
 import NotificationPage from "./components/pages/settings/NotificationPage";
 import AuthCallback from "./services/AuthCallback";
 import LandingPage from "./components/pages/LandingPage";
-import ToS from "./components/pages/settings/ToS";
+import SupportCenter from "./components/pages/settings/SupportCenter";
 
 function App() {
   return (
@@ -50,7 +50,7 @@ function App() {
               <Route path="account" element={<AccountInfoPage />} />
               <Route path="bank-account" element={<BankAccountInfoPage />} />
               <Route path="notifications" element={<NotificationPage />} />
-              <Route path="tos" element={<ToS />} />
+              <Route path="support-center" element={<SupportCenter />} />
             </Route>
           </Route>
 

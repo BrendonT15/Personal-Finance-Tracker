@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 
 const SettingsNavbar = () => {
@@ -19,8 +17,8 @@ const SettingsNavbar = () => {
           <Link to="notifications" className={navItemClasses}>
             Notifications
           </Link>
-          <Link to="tos" className={navItemClasses}>
-            Terms of Service
+          <Link to="support-center" className={navItemClasses}>
+            Support Center
           </Link>
         </div>
       </nav>

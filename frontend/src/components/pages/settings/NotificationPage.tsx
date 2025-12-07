@@ -3,8 +3,8 @@ const NotificationPage = () => {
     <div className="p-4">
       <div className="flex flex-col gap-6">
         <div className="">
-          <p>Notifications</p>
-          <p>
+          <p className="text-xl font-semibold">Notifications</p>
+          <p className="text-sm">
             Get emails to find out what's going on when you're not online. You
             can turn them off anytime.
           </p>
