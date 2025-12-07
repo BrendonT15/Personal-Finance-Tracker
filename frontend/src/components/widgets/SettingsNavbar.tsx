@@ -1,14 +1,4 @@
-import {
-  DashboardOutlined as DashboardOutlinedIcon,
-  ReceiptLongOutlined as ReceiptLongOutlinedIcon,
-  PeopleAltOutlined as PeopleAltOutlinedIcon,
-  AnalyticsOutlined as AnalyticsOutlinedIcon,
-  SportsScoreOutlined as SportsScoreOutlinedIcon,
-  SettingsOutlined as SettingsOutlinedIcon,
-  Person2Outlined as Person2OutlinedIcon,
-  DarkModeOutlined as DarkModeOutlinedIcon,
-  LogoutOutlined as LogoutOutlinedIcon,
-} from "@mui/icons-material";
+
 
 import { Link } from "react-router-dom";
 

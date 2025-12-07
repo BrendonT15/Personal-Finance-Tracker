@@ -93,6 +93,8 @@ const CreateAccountPage = () => {
         <div className="">
           <h1 className="text-3xl font-medium text-white absolute left-6 top-6">BAT</h1>
           <img src={batImage} className="h-screen w-full"/>
+
+          <div className="border"></div>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center h-full overflow-auto">

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import ConnectBankBanner from "../widgets/ConnectBankBanner";
-import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
@@ -29,12 +28,19 @@ import TestPosNegBarChart from "../widgets/charts/TestPosNegBarChart";
 import TestRadarChart from "./TestRadarChart";
 import PlaidButton from "../plaid/PlaidButton";
 import { usePlaidData } from "../../hooks/usePlaidData";
+import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 
 const pieColors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const DashboardPage = () => {
   const [firstName, setFirstName] = useState<string>("");
-  const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
+  const {
+    metrics,
+    hasBankAccount,
+    isLoading,
+    error,
+    refetch,
+  } = usePlaidData();
 
   useEffect(() => {
     const userString = localStorage.getItem("user");
@@ -43,6 +49,8 @@ const DashboardPage = () => {
       setFirstName(user.user_metadata?.first_name || "User");
     }
   }, []);
+
+
 
   if (isLoading) {
     return (
@@ -68,22 +76,26 @@ const DashboardPage = () => {
     <div className="p-4 col gap-4 min-h-screen">
       <h2 className="text-4xl font-medium mb-4 flex items-center gap-3">
         Dashboard - Welcome {firstName}
-        {hasBankAccount ? (
-          <PlaidDisconnectButton onDisconnect={refetch} />
-        ) : (
-          <PlaidButton onSuccess={refetch} />
-        )}
       </h2>
 
-      {!hasBankAccount && (
-        <div className="mb-4">
-          <ConnectBankBanner>
-            <PlaidButton onSuccess={refetch} />
-          </ConnectBankBanner>
+      {hasBankAccount ? (
+        <div className="border border-gray-200 rounded-md p-4 bg-green-50">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-green-800">
+                Bank Account Connected
+              </h3>
+              <p className="text-sm text-green-600">
+                Your financial data is synced and up to date
+              </p>
+            </div>
+            <PlaidDisconnectButton onSuccess={refetch} />
+          </div>
         </div>
-      )}
+      ) : (
+        <ConnectBankBanner onSuccess={refetch} />  
+        )}
 
-      {/* First Row - Original 4 Widgets */}
       <div className="flex items-center gap-2">
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}

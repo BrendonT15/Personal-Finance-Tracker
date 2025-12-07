@@ -91,20 +91,10 @@ app.post("/api/create-link-token", async (req, res) => {
 
     const { user_id } = req.body;
 
-    console.log("User ID:", user_id);
-    console.log("PLAID_CLIENT_ID:", process.env.PLAID_CLIENT_ID);
-    console.log("PLAID_SECRET exists:", !!process.env.PLAID_SECRET);
-    console.log(
-      "PLAID_SECRET value:",
-      process.env.PLAID_SECRET?.substring(0, 10) + "..."
-    );
-
     if (!user_id) {
-      console.log("ERROR: Missing user_id");
       return res.status(400).send("Missing user_id");
     }
 
-    console.log("Calling Plaid API...");
     const response = await client.linkTokenCreate({
       user: { client_user_id: user_id },
       client_name: "MyFinanceApp",
@@ -113,14 +103,8 @@ app.post("/api/create-link-token", async (req, res) => {
       language: "en",
     });
 
-    console.log("Plaid response received:", response.data);
-    console.log("Link token created successfully");
     res.json(response.data);
   } catch (err) {
-    console.error("=== ERROR CREATING LINK TOKEN ===");
-    console.error("Error:", err);
-    console.error("Error response:", err.response?.data);
-    console.error("Error status:", err.response?.status);
     res.status(500).json({
       error: "Failed to create link token",
       details: err.response?.data || err.message,
@@ -162,9 +146,6 @@ app.post("/api/get-accounts", async (req, res) => {
       access_token,
     });
 
-    console.log("=== ACCOUNT INFO ===");
-    console.log(JSON.stringify(accountsResponse.data, null, 2));
-
     res.json(accountsResponse.data);
   } catch (err) {
     console.error("Error fetching accounts:", err);
@@ -188,9 +169,6 @@ app.post("/api/get-transactions", async (req, res) => {
 
     const transactionsResponse = await client.transactionsGet(request);
 
-    console.log("=== TRANSACTIONS ===");
-    console.log(JSON.stringify(transactionsResponse.data, null, 2));
-
     res.json(transactionsResponse.data);
   } catch (err) {
     console.error("Error fetching transactions:", err);
@@ -206,9 +184,6 @@ app.post("/api/get-item", async (req, res) => {
       access_token,
     });
 
-    console.log("=== ITEM INFO ===");
-    console.log(JSON.stringify(itemResponse.data, null, 2));
-
     res.json(itemResponse.data);
   } catch (err) {
     console.error("Error fetching item:", err);
@@ -216,33 +191,67 @@ app.post("/api/get-item", async (req, res) => {
   }
 });
 
-app.post("/api/disconnect-plaid", async (req, res) => {
+app.post("/api/disconnect-bank", async (req, res) => {
+  const { user_id } = req.body;
+
   try {
-    const { user_id } = req.body;
+    console.log("=== DISCONNECT BANK REQUEST ===");
+    console.log("User ID:", user_id);
 
-    const { data, error } = await supabase
-      .from("plaid_items")
-      .select("access_token")
-      .eq("user_id", user_id)
-      .single();
-
-    if (!data || error) {
-      return res.status(404).json({ error: "No bank connected" });
+    if (!user_id) {
+      return res.status(400).json({ error: "Missing user_id" });
     }
 
-    const accessToken = data.access_token;
+    const { data: existingItems, error: fetchError } = await supabase
+      .from("plaid_items")
+      .select("*")
+      .eq("user_id", user_id);
 
-    await client.itemRemove({ access_token: accessToken });
+    console.log("Existing plaid_items before delete:", existingItems);
+    console.log("Number of items to delete:", existingItems?.length);
 
-    await supabase.from("plaid_items").delete().eq("user_id", user_id);
+    if (fetchError) {
+      console.error("Error fetching items:", fetchError);
+    }
 
-    res.json({ success: true, message: "Bank disconnected" });
+    const {
+      data: deletedData,
+      error,
+      count,
+    } = await supabase
+      .from("plaid_items")
+      .delete()
+      .eq("user_id", user_id)
+      .select();
+
+    console.log("Delete error:", error);
+    console.log("Deleted data:", deletedData);
+    console.log("Delete count:", count);
+
+    if (error) {
+      console.error(
+        "Supabase deletion error details:",
+        JSON.stringify(error, null, 2)
+      );
+      throw error;
+    }
+
+    console.log("Bank disconnected successfully for user:", user_id);
+
+    res.json({
+      success: true,
+      message: "Bank disconnected successfully",
+      deletedCount: deletedData?.length || 0,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to disconnect bank" });
+    console.error("=== ERROR DISCONNECTING BANK ===");
+    console.error("Error:", err);
+    res.status(500).json({
+      error: "Failed to disconnect bank",
+      details: err.message,
+    });
   }
 });
-
 
 const PORT = process.env.PORT || 8000;
 

@@ -104,7 +104,7 @@ const Footer = () => {
           <h4 className="text-3xl font-semibold w-1/2 text-slate-50">
            BAT will change the way you
             organize your financial life. Track, budget, plan, and do more with
-            your money - together. or untested software can be run securely.
+            your money - together
           </h4>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 text-slate-50">

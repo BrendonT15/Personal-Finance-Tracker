@@ -58,10 +58,9 @@ const HeroSection = () => {
         <div className="flex items-end justify-between">
           <div ref={contentRef} className="flex flex-col items-start gap-4">
             <h1 className="text-white font-medium text-5xl w-1/2">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis
-              odit est fuga similique minima neque deserunt dolore animi nisi,
-              optio ut soluta dicta fugiat voluptatibus doloribus nobis. Est,
-              sint nam?
+            BAT will change the way you
+            organize your financial life. Track, budget, plan, and do more with
+            your money - together
             </h1>
             <button className="rounded-2xl text-white border border-white px-3 py-1 font-light cursor-pointer pointer-events-auto">
               <Link to="/create-account">Get Started</Link>

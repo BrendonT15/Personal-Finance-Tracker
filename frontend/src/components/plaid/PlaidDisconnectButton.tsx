@@ -1,45 +1,65 @@
+import { useState } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { supabase } from "../../services/supabaseClient";
 
-const PlaidDisconnectButton = ({
-  onDisconnect,
-}: {
-  onDisconnect?: () => void;
-}) => {
-  const [userId, setUserId] = useState<string | null>(null);
+const PlaidDisconnectButton = ({ onSuccess }: { onSuccess?: () => void }) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
+  const handleDisconnect = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to disconnect your bank account? This will remove all connected accounts and transaction data."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setIsLoading(true);
+
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      if (session?.user) setUserId(session.user.id);
-    })();
-  }, []);
 
-  const handleDisconnect = async () => {
-    if (!userId) return alert("No user detected");
+      if (!session?.user) {
+        alert("No user session found");
+        return;
+      }
 
-    try {
-      await axios.post("http://localhost:8000/api/disconnect-plaid", {
-        user_id: userId,
+      console.log("Disconnecting bank for user:", session.user.id);
+
+      const response = await axios.post("http://localhost:8000/api/disconnect-bank", {
+        user_id: session.user.id,
       });
-      alert("Bank disconnected");
 
-      onDisconnect?.();
-    } catch (err) {
-      console.error("Disconnect failed:", err);
-      alert("Failed to disconnect bank");
+      console.log("Disconnect response:", response.data);
+
+     
+      if (onSuccess) {
+        console.log("Calling refetch to update UI...");
+        onSuccess();
+        
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      
+      alert("Bank account disconnected successfully!");
+    } catch (err: any) {
+      console.error("Failed to disconnect bank:", err);
+      alert(
+        `Failed to disconnect bank account: ${
+          err.response?.data?.error || err.message
+        }`
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <button
       onClick={handleDisconnect}
-      className="bg-red-500 text-white rounded-md p-1"
+      disabled={isLoading}
+      className="text-white bg-red-600 hover:bg-red-700 disabled:bg-red-400 rounded-md px-4 py-2 cursor-pointer w-fit transition-colors"
     >
-      Disconnect Bank
+      {isLoading ? "Disconnecting..." : "Disconnect Bank"}
     </button>
   );
 };

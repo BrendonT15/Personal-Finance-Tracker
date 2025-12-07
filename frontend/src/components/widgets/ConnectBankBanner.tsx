@@ -1,4 +1,6 @@
-const ConnectBankBanner = ({ children }: { children?: React.ReactNode }) => {
+import PlaidButton from "../plaid/PlaidButton";
+
+const ConnectBankBanner = ({ onSuccess }: { onSuccess?: () => void }) => {
   return (
     <div className="w-full p-4 rounded-md border border-blue-300 bg-blue-50 flex items-center justify-between">
       <div className="flex flex-col">
@@ -9,7 +11,7 @@ const ConnectBankBanner = ({ children }: { children?: React.ReactNode }) => {
       </div>
 
       <div>
-        {children}
+      <PlaidButton onSuccess={onSuccess} />
       </div>
     </div>
   );
