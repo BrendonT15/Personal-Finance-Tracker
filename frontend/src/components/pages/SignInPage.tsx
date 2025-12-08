@@ -145,7 +145,7 @@ const SignInPage = () => {
               Don't have an account?{" "}
               <Link
                 to="/create-account"
-                className="text-blue-600 hover:underline"
+                className="text-orange-400 hover:underline"
               >
                 Sign up
               </Link>

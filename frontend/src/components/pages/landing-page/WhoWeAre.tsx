@@ -96,7 +96,7 @@ const WhoWeAre = () => {
 
       <div className="flex flex-col items-center gap-5">
         <h1 className="text-4xl font-medium">
-          Your home base for money clarity
+          Simplifying money, empowering decisions{" "}
         </h1>
         <p className="text-3xl w-1/2 text-center">
           Connect all your bank accounts, credit cards, and investments. See

@@ -1,5 +1,3 @@
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PlaidDisconnectButton from "../../plaid/PlaidDisconnectButton";
 import ConnectBankBanner from "../../widgets/ConnectBankBanner";
 import { usePlaidData } from "../../../hooks/usePlaidData";
@@ -10,11 +8,11 @@ const BankAccountInfoPage = () => {
     <div className="p-4 col gap-6">
       <div className="">
         {" "}
-        <p className="font-semibold text-xl">Bank Account Information</p>
+        <p className="font-semibold text-2xl">Bank Account Information</p>
         <p className="text-sm">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-          Consequuntur, aliquid dolorem. Necessitatibus excepturi odio cum neque
-          non aliquam vo
+          Connect your bank account to securely sync transactions, balances, and
+          spending insights in real time. You can disconnect at any time, and
+          your data stays protected.
         </p>
       </div>
 

@@ -32,7 +32,7 @@ interface Account {
 const AccountsPage = () => {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [allTransactions, setAllTransactions] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
   const [accountTransactions, setAccountTransactions] = useState<any[]>([]);
 
@@ -51,7 +51,7 @@ const AccountsPage = () => {
 
       if (!accessToken) {
         console.log("No Plaid items found");
-        setLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -68,7 +68,7 @@ const AccountsPage = () => {
     } catch (err) {
       console.error("Error fetching accounts:", err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -140,19 +140,23 @@ const AccountsPage = () => {
 
   const netWorth = totalAssets - totalLiabilities;
 
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-gray-500">Loading accounts...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 flex flex-col gap-6">
       <div>
         <h2 className="text-4xl font-medium">Accounts</h2>
       </div>
 
-      {loading && (
-        <div className="flex items-center justify-center h-64">
-          <p className="text-gray-500">Loading accounts...</p>
-        </div>
-      )}
-
-      {!loading && accounts.length === 0 && (
+      {accounts.length === 0 && (
         <div className="flex items-center justify-center h-64 border border-gray-200 rounded-lg">
           <div className="text-center">
             <p className="text-gray-500 mb-2">No accounts found</p>
@@ -163,7 +167,7 @@ const AccountsPage = () => {
         </div>
       )}
 
-      {!loading && accounts.length > 0 && (
+      {accounts.length > 0 && (
         <>
           {/* Net Worth Summary */}
           <div className="grid grid-cols-3 gap-4">
@@ -257,8 +261,8 @@ const AccountsPage = () => {
                                   </span>
                                 </div>
                                 <p className="text-gray-600 text-sm mb-2">
-                                  {acc.official_name || "No official name"}
-                                  •••••{acc.mask}
+                                  {acc.official_name || "No official name"} •
+                                  ••••{acc.mask}
                                 </p>
 
                                 {/* Additional Info */}

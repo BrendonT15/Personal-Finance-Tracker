@@ -4,13 +4,13 @@ import { Outlet } from "react-router-dom";
 
 const SettingsPage = () => {
   return (
-    <div>
-      <div className="p-4 grid grid-rows-[10%_auto] gap-1">
-        <div className="">
-          <h2 className="font-medium text-4xl">Settings</h2>
-        </div>
-        <div className="mt-4 grid grid-cols-[20%_auto] h-full">
-          <SettingsNavbar />
+    <div className="p-4">
+      <h2 className="font-medium text-4xl">Settings</h2>
+
+      <div className="mt-4 grid grid-cols-[300px_1fr] gap-6">
+        <SettingsNavbar />
+
+        <div className="min-h-[600px] overflow-y-auto">
           <Outlet />
         </div>
       </div>

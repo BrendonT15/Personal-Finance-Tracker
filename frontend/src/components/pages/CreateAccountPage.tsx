@@ -18,7 +18,6 @@ const CreateAccountPage = () => {
     }
   }, [navigate]);
 
-  // Form state
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -91,7 +90,6 @@ const CreateAccountPage = () => {
       <div className="bg-gray-700">
         <div className="">
           <h1 className="text-3xl font-medium text-white p-4">BAT</h1>
-
         </div>
       </div>
       <div className="flex flex-col items-center justify-center h-full overflow-auto">
@@ -200,7 +198,10 @@ const CreateAccountPage = () => {
             </button>
 
             <p className="text-center text-sm">
-              Already have an account?  <Link to="/signin" className="text-blue-600 hover:underline">Sign in</Link>
+              Already have an account?{" "}
+              <Link to="/signin" className="text-orange-400 hover:underline">
+                Sign in
+              </Link>
             </p>
             <div className="flex items-center w-full">
               <div className="flex-grow border-t border-gray-700"></div>

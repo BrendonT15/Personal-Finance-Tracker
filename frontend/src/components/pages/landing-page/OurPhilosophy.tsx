@@ -13,46 +13,47 @@ interface ValueItem {
 
 const values: ValueItem[] = [
   {
-    title: "We go all in",
-    description1: "We go all in, so you get the outcomes you deserve.",
+    title: "Commit Fully",
+    description1: "We put our full energy into every project we touch.",
     description2:
-      "We care fiercely about the work and the people at the heart of it.",
+      "We believe great work requires commitment, curiosity, and courage.",
     description3:
-      "We dive deeper to find the challenge lurking underneath the surface-level problem. And then we solve it.",
+      "We don’t stop at the first solution — we dig deeper to uncover what truly matters.",
     description4:
-      "Our guiding philosophy of ROIdeas® ensures we deliver outcomes (not just outputs) with each and every project.",
+      "Our mindset ensures we deliver meaningful outcomes, not just completed tasks.",
   },
   {
-    title: "We're not precious",
-    description1: "We go all in, so you get the outcomes you deserve.",
+    title: "Embrace Openness",
+    description1: "Good ideas can come from anywhere.",
     description2:
-      "We care fiercely about the work and the people at the heart of it.",
+      "We collaborate with openness, leaving ego and hierarchy at the door.",
     description3:
-      "We dive deeper to find the challenge lurking underneath the surface-level problem. And then we solve it.",
+      "We value iteration over perfection, feedback over silence, progress over pride.",
     description4:
-      "Our guiding philosophy of ROIdeas® ensures we deliver outcomes (not just outputs) with each and every project.",
+      "If something doesn’t work, we change direction quickly and without hesitation.",
   },
   {
-    title: "We're ready to react",
-    description1: "We go all in, so you get the outcomes you deserve.",
+    title: "Adapt Rapidly",
+    description1: "We move fast, adapt fast, and respond with clarity and intent.",
     description2:
-      "We care fiercely about the work and the people at the heart of it.",
+      "Challenges don’t slow us down — they sharpen our thinking.",
     description3:
-      "We dive deeper to find the challenge lurking underneath the surface-level problem. And then we solve it.",
+      "When priorities shift, we pivot with confidence instead of panic.",
     description4:
-      "Our guiding philosophy of ROIdeas® ensures we deliver outcomes (not just outputs) with each and every project.",
+      "Our agility lets us deliver results even when the unexpected happens.",
   },
   {
-    title: "We never settle",
-    description1: "We go all in, so you get the outcomes you deserve.",
+    title: "Pursue Excellence",
+    description1: "Good work is the baseline — we strive for exceptional.",
     description2:
-      "We care fiercely about the work and the people at the heart of it.",
+      "We raise standards continuously, always searching for better ways forward.",
     description3:
-      "We dive deeper to find the challenge lurking underneath the surface-level problem. And then we solve it.",
+      "We challenge assumptions, question norms, and explore beyond the obvious.",
     description4:
-      "Our guiding philosophy of ROIdeas® ensures we deliver outcomes (not just outputs) with each and every project.",
+      "No shortcuts, no complacency — we're committed to long-term excellence.",
   },
 ];
+
 
 const OurValues = () => {
   const containerRef = useRef<HTMLDivElement>(null);

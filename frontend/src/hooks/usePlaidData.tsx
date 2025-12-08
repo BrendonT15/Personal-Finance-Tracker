@@ -14,6 +14,8 @@ const EMPTY_METRICS: FinancialMetrics = {
   categoryData: [],
   savingsRate: 0,
   netCashFlow: 0,
+  timeSeriesData: [],
+  dailyCashFlow: []
 };
 
 export const usePlaidData = () => {

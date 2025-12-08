@@ -9,10 +9,11 @@ const SupportCenter = () => {
   return (
     <div className="p-4 col gap-6">
       <div className="">
-        <p className="font-semibold text-xl">Support Center</p>
+        <p className="font-semibold text-2xl">Support Center</p>
         <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore odit
-          hic esse voluptatem 
+          Find answers, browse help topics, and get support when you need it.
+          We're here to help you navigate your account, features, and
+          troubleshooting.
         </p>
       </div>
 

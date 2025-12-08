@@ -15,11 +15,10 @@ import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 import IncomeSpendingChart from "../widgets/charts/IncomeSpendingChart";
 import SpendingPieChart from "../widgets/charts/SpendingPieChart";
 import DailyCashflowChart from "../widgets/charts/DailyCashflowChart";
-
+import TransactionsWidget from "../widgets/TransactionsWidget";
 
 const DashboardPage = () => {
   const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
-
 
   if (isLoading) {
     return (
@@ -152,13 +151,16 @@ const DashboardPage = () => {
         />
       </div>
 
-      <IncomeSpendingChart data={metrics.timeSeriesData} />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
+          <IncomeSpendingChart data={metrics.timeSeriesData} />
+          <DailyCashflowChart data={metrics.dailyCashFlow} />
+        </div>
 
-      <SpendingPieChart data={metrics.categoryData} />
+        <SpendingPieChart data={metrics.categoryData} />
+      </div>
 
-      <DailyCashflowChart data={metrics.dailyCashFlow} />
-
-      <div className="border p-4">transactions</div>
+     <TransactionsWidget/>
     </div>
   );
 };
