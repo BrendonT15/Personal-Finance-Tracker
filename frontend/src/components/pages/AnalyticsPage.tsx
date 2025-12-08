@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import ConnectBankBanner from "../widgets/ConnectBankBanner";
 import {
   AccountBalanceWalletOutlined,
   TrendingDownOutlined,
@@ -8,69 +6,32 @@ import {
   ReceiptOutlined,
   AccountBalanceOutlined,
   RemoveOutlined,
-  CreditCard,
 } from "@mui/icons-material";
 import StatWidget from "../widgets/StatWidget";
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  AreaChart,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
-import PlaidButton from "../plaid/PlaidButton";
 import { usePlaidData } from "../../hooks/usePlaidData";
-
-const pieColors = [
-  "#8884d8",
-  "#82ca9d",
-  "#ffc658",
-  "#ff8042",
-  "#8dd1e1",
-  "#a4de6c",
-  "#d0ed57",
-];
+import { CumulativeBalanceChart } from "../widgets/charts/CumulativeBalanceChart";
+import { WeeklySpendingChart } from "../widgets/charts/WeeklySpendingChart";
+import { CashFlowAnalysisChart } from "../widgets/charts/CashFlowAnalysisChart";
+import { CategoryRadarChart } from "../widgets/charts/CategoryRadarChart";
 
 const AnalyticsPage = () => {
-  const [firstName, setFirstName] = useState<string>("");
   const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
 
-  useEffect(() => {
-    const userString = localStorage.getItem("user");
-    if (userString) {
-      const user = JSON.parse(userString);
-      setFirstName(user.user_metadata?.first_name || "User");
-    }
-  }, []);
-
-  const avgTransaction =
-    metrics.transactionCount > 0
-      ? metrics.spending / metrics.transactionCount
-      : 0;
-
-  if (isLoading)
-    return <div className="p-4 flex justify-center">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <div className="flex items-center justify-center h-96">
+          <p className="text-gray-500">Loading analytics data...</p>
+        </div>
+      </div>
+    );
+  }
+  
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
   return (
     <div className="p-4 min-h-screen space-y-6">
       <h2 className="text-4xl font-medium">Analytics</h2>
-
-      {!hasBankAccount && (
-        <ConnectBankBanner>
-          <PlaidButton onSuccess={refetch} />
-        </ConnectBankBanner>
-      )}
 
       {/* SUMMARY METRICS */}
       <div className="grid grid-cols-4 gap-2">
@@ -160,81 +121,17 @@ const AnalyticsPage = () => {
         />
       </div>
 
-      {/* REAL DATA CHARTS */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Income vs Spending */}
-        <div className="border border-gray-200 rounded-md p-4">
-          <h3 className="font-medium mb-2">Income vs Spending (Actual)</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={metrics.timeSeriesData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip formatter={(v) => `$${v}`} />
-              <Legend />
-              <Line type="monotone" dataKey="income" stroke="#82ca9d" />
-              <Line type="monotone" dataKey="spending" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Spending By Category */}
-        <div className="border border-gray-200 rounded-md p-4">
-          <h3 className="font-medium mb-2">Spending by Category</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={metrics.categoryData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip formatter={(v) => `$${v}`} />
-              <Legend />
-              <Bar dataKey="value" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <CumulativeBalanceChart
+          timeSeriesData={metrics.timeSeriesData}
+          totalBalance={metrics.totalBalance}
+        />
+        <WeeklySpendingChart timeSeriesData={metrics.timeSeriesData} />
       </div>
 
-      {/* Cashflow + Pie Breakdown */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Daily Net Flow */}
-        <div className="border border-gray-200 rounded-md p-4">
-          <h3 className="font-medium mb-2">Daily Cash Flow</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={metrics.dailyCashFlow}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip formatter={(v) => `$${v}`} />
-              <Legend />
-              <Area
-                type="monotone"
-                dataKey="amount"
-                stroke="#82ca9d"
-                fill="#82ca9d"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* PIE CHART */}
-        <div className="border border-gray-200 rounded-md p-4 flex flex-col justify-center">
-          <h3 className="font-medium mb-4 text-center">Category Share</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={metrics.categoryData}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={90}
-              >
-                {metrics.categoryData?.map((_, i) => (
-                  <Cell key={i} fill={pieColors[i % pieColors.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v) => `$${v}`} />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <CashFlowAnalysisChart timeSeriesData={metrics.timeSeriesData} />
+        <CategoryRadarChart categoryData={metrics.categoryData} />
       </div>
     </div>
   );

@@ -4,10 +4,20 @@ import {
 } from "recharts";
 
 interface Props {
-  data: any[];
+  data?: any[]; 
 }
 
-const DailyCashflowChart = ({ data }: Props) => {
+const DailyCashflowChart = ({ data = [] }: Props) => { 
+  
+  if (data.length === 0) {
+    return (
+      <div className="border border-gray-200 rounded-md p-4 w-full">
+        <h3 className="text-lg font-medium mb-4">Daily Cash Flow</h3>
+        <p className="text-gray-500">No transactions to display. Connect a bank account to view your cash flow.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="border border-gray-200 rounded-md p-4 w-full">
       <h3 className="text-lg font-medium mb-4">Daily Cash Flow</h3>

@@ -91,10 +91,8 @@ const CreateAccountPage = () => {
     <div className="grid grid-cols-[40%_60%] w-full h-screen">
       <div className="bg-gray-700">
         <div className="">
-          <h1 className="text-3xl font-medium text-white absolute left-6 top-6">BAT</h1>
-          <img src={batImage} className="h-screen w-full"/>
+          <h1 className="text-3xl font-medium text-white p-4">BAT</h1>
 
-          <div className="border"></div>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center h-full overflow-auto">
@@ -203,7 +201,7 @@ const CreateAccountPage = () => {
             </button>
 
             <p className="text-center text-sm">
-              Already have an account? Sign in <Link to="/signin">here</Link>
+              Already have an account?  <Link to="/signin" className="text-blue-600 hover:underline">Sign in</Link>
             </p>
             <div className="flex items-center w-full">
               <div className="flex-grow border-t border-gray-700"></div>
