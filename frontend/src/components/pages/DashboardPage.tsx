@@ -11,7 +11,7 @@ import {
 import StatWidget from "../widgets/StatWidget";
 
 import { usePlaidData } from "../../hooks/usePlaidData";
-import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
+import PlaidDisconnectButton from "./plaid/PlaidDisconnectButton";
 import IncomeSpendingChart from "../widgets/charts/IncomeSpendingChart";
 import SpendingPieChart from "../widgets/charts/SpendingPieChart";
 import DailyCashflowChart from "../widgets/charts/DailyCashflowChart";
@@ -160,7 +160,7 @@ const DashboardPage = () => {
         <SpendingPieChart data={metrics.categoryData} />
       </div>
 
-     <TransactionsWidget/>
+      <TransactionsWidget />
     </div>
   );
 };

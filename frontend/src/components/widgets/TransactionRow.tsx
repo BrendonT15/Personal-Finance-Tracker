@@ -15,7 +15,6 @@ const TransactionRow = ({
   paymentChannel,
   website,
   logo_url,
-  pending,
 }: {
   transactionNumber: number;
   transactionID: string;
@@ -27,7 +26,6 @@ const TransactionRow = ({
   paymentChannel: string;
   website: string;
   logo_url: string;
-  pending: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);

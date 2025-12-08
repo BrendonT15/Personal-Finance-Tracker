@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { supabase } from "../../services/supabaseClient";
+import { supabase } from "../../../services/supabaseClient";
 
 const PlaidDisconnectButton = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,20 +26,22 @@ const PlaidDisconnectButton = ({ onSuccess }: { onSuccess?: () => void }) => {
 
       console.log("Disconnecting bank for user:", session.user.id);
 
-      const response = await axios.post("http://localhost:8000/api/disconnect-bank", {
-        user_id: session.user.id,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/disconnect-bank",
+        {
+          user_id: session.user.id,
+        }
+      );
 
       console.log("Disconnect response:", response.data);
 
-     
       if (onSuccess) {
         console.log("Calling refetch to update UI...");
         onSuccess();
-        
-        await new Promise(resolve => setTimeout(resolve, 100));
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
-      
+
       alert("Bank account disconnected successfully!");
     } catch (err: any) {
       console.error("Failed to disconnect bank:", err);

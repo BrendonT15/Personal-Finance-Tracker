@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import axios from "axios";
-import { supabase } from "../../services/supabaseClient";
+import { supabase } from "../../../services/supabaseClient";
 
-const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {  
+const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [linkToken, setLinkToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -12,12 +12,12 @@ const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      console.log("Session retrieved:", session); 
+      console.log("Session retrieved:", session);
       if (session?.user) {
-        console.log("User ID found:", session.user.id); 
+        console.log("User ID found:", session.user.id);
         setUserId(session.user.id);
       } else {
-        console.log("No user session found"); 
+        console.log("No user session found");
       }
     };
     getSession();
@@ -35,7 +35,7 @@ const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect triggered. userId:", userId); 
+    console.log("useEffect triggered. userId:", userId);
     if (!userId) {
       console.log("Skipping link token creation - no userId");
       return;
@@ -50,13 +50,13 @@ const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {
             user_id: userId,
           }
         );
-        console.log("Full response:", res.data); 
+        console.log("Full response:", res.data);
         console.log("Link token received:", res.data.link_token);
         setLinkToken(res.data.link_token);
       } catch (err: any) {
         console.error("Failed to create link token:", err);
         console.error("Error response:", err.response?.data);
-        console.error("Error status:", err.response?.status); 
+        console.error("Error status:", err.response?.status);
       }
     };
 
@@ -65,21 +65,28 @@ const PlaidButton = ({ onSuccess }: { onSuccess?: () => void }) => {
 
   const { open, ready } = usePlaidLink({
     token: linkToken,
-    onSuccess: async (public_token, metadata) => {
+    onSuccess: async (public_token) => {
       try {
         await axios.post("http://localhost:8000/api/exchange-public-token", {
           public_token,
           user_id: userId,
         });
         alert("Bank connected successfully!");
-        onSuccess?.();  
+        onSuccess?.();
       } catch (err) {
         console.error("Failed to exchange public token:", err);
       }
     },
   });
 
-  console.log("Current state - Link token:", linkToken, "Ready:", ready, "UserId:", userId);
+  console.log(
+    "Current state - Link token:",
+    linkToken,
+    "Ready:",
+    ready,
+    "UserId:",
+    userId
+  );
 
   return (
     <button

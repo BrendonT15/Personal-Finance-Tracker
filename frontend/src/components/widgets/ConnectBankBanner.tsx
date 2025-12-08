@@ -1,4 +1,4 @@
-import PlaidButton from "../plaid/PlaidButton";
+import PlaidButton from "../pages/plaid/PlaidButton";
 
 const ConnectBankBanner = ({ onSuccess }: { onSuccess?: () => void }) => {
   return (
@@ -11,7 +11,7 @@ const ConnectBankBanner = ({ onSuccess }: { onSuccess?: () => void }) => {
       </div>
 
       <div>
-      <PlaidButton onSuccess={onSuccess} />
+        <PlaidButton onSuccess={onSuccess} />
       </div>
     </div>
   );

@@ -11,7 +11,6 @@ interface Transaction {
   payment_channel: string;
   website: string;
   logo_url: string;
-  pending: boolean;
   personal_finance_category?: {
     primary: string;
   };
@@ -61,11 +60,7 @@ const TransactionTable = ({
     }
   };
 
-  const [originalIndices] = useState(() => 
-    transactions.map((_, index) => index)
-  );
-
-  const sortByTransactionNumber = (a: Transaction, b: Transaction, indexA: number, indexB: number) => {
+  const sortByTransactionNumber = (_a: Transaction, _b: Transaction, indexA: number, indexB: number) => {
     if (sortDirection === "asc") {
       return indexA - indexB;
     } else {
@@ -156,7 +151,7 @@ const TransactionTable = ({
     })
     .map(({ transaction }) => transaction);
 
-  const renderSortIcon = (field: SortField) => {
+  const renderSortIcon = () => {
     return <UnfoldMoreOutlinedIcon fontSize="inherit" />;
   };
 
@@ -184,7 +179,7 @@ const TransactionTable = ({
             {header.label && <p>{header.label}</p>}
             {header.key && (
               <div className="flex items-center">
-                {renderSortIcon(header.key as SortField)}
+                {renderSortIcon()}
               </div>
             )}
           </div>
@@ -205,7 +200,6 @@ const TransactionTable = ({
             paymentChannel={txn.payment_channel}
             website={txn.website}
             logo_url={txn.logo_url}
-            pending={txn.pending}
           />
         ))
       ) : (

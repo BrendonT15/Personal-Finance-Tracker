@@ -1,4 +1,4 @@
-import PlaidDisconnectButton from "../../plaid/PlaidDisconnectButton";
+import PlaidDisconnectButton from "../plaid/PlaidDisconnectButton";
 import ConnectBankBanner from "../../widgets/ConnectBankBanner";
 import { usePlaidData } from "../../../hooks/usePlaidData";
 
