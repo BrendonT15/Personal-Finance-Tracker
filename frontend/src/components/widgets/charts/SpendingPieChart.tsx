@@ -13,8 +13,14 @@ const SpendingPieChart = ({ data, colors = ["#8884d8", "#82ca9d", "#ffc658", "#f
       <h3 className="text-lg font-medium mb-4">Spending by Category</h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
-          <Pie data={chartData} dataKey="value" cx="50%" cy="50%" outerRadius={100}
-               label={(entry) => `${entry.name}: $${entry.value.toFixed(0)}`}>
+          <Pie 
+            data={chartData} 
+            dataKey="value" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={100}
+            label={(entry: any) => `${entry.name}: $${entry.value.toFixed(0)}`}
+          >
             {chartData.map((_, i) => <Cell key={i} fill={colors[i % colors.length]} />)}
           </Pie>
           <Tooltip formatter={(v: number) => `$${v.toFixed(2)}`} />

@@ -43,7 +43,7 @@ export const CategoryRadarChart = ({
             fillOpacity={0.6}
           />
           <Tooltip
-            formatter={(value: any, name: any, props: any) => [
+            formatter={(_value: any, _name: any, props: any) => [
               `$${props.payload.actualValue.toFixed(2)}`,
               "Amount",
             ]}
