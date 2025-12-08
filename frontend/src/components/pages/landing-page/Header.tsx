@@ -6,7 +6,7 @@ const Header = () => {
     <header className="flex items-center justify-between text-white">
       <h1 className="text-4xl font-medium cursor-pointer">BAT </h1>
 
-      <div className="flex items-center gap-5 font-light">
+      <div className="flex items-center gap-5 font-thin">
         <FlipWord flipValue={20}>Features</FlipWord>
         <FlipWord flipValue={20}>For Couples</FlipWord>
         <FlipWord flipValue={20}>For Professionals</FlipWord>

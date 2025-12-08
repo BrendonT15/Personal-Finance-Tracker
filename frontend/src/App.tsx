@@ -13,7 +13,6 @@ import TransactionPage from "./components/pages/TransactionPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import HomePageLayout from "./components/pages/HomePageLayout";
-import BudgetPage from "./components/pages/BudgetPage";
 import AccountInfoPage from "./components/pages/settings/AccountInfoPage";
 import BankAccountInfoPage from "./components/pages/settings/BankAccountInfoPage";
 import NotificationPage from "./components/pages/settings/NotificationPage";
@@ -42,7 +41,6 @@ function App() {
             <Route path="home" element={<DashboardPage />} />
             <Route path="transactions" element={<TransactionPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
-            <Route path="budget" element={<BudgetPage />} />
             <Route path="accounts" element={<AccountsPage />} />
 
             <Route path="settings" element={<SettingsPage />}>

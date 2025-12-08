@@ -106,18 +106,7 @@ const Footer = () => {
             organize your financial life. Track, budget, plan, and do more with
             your money - together
           </h4>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-slate-50">
-              <SouthWestIcon fontSize="inherit" />
-              <p className="text-xl font-medium ">Contact</p>
-            </div>
-            <FlipWord className="w-fit text-xl font-light text-slate-50">
-              email@email.com
-            </FlipWord>
-            <p className="w-1/2 text-xl font-light text-slate-50">
-              174 Washington Street Apt 1C, Jersey City, NJ 07302
-            </p>
-          </div>
+         
         </div>
 
         <div className="text-slate-50 ">

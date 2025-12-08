@@ -2,7 +2,6 @@ import Footer from "./landing-page/Footer";
 import HeroSection from "./landing-page/HeroSection";
 import WhoWeAre from "./landing-page/WhoWeAre";
 import OurPhilosphy from "./landing-page/OurPhilosophy";
-import Demo from "./landing-page/Demo";
 import { useEffect } from "react";
 import Lenis from "@studio-freight/lenis";
 

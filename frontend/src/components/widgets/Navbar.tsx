@@ -91,10 +91,7 @@ const Navbar = () => {
                 Analytics
               </Link>
 
-              <Link to="/budget" className={navItemClasses}>
-                <SportsScoreOutlinedIcon fontSize="inherit" />
-                Budget
-              </Link>
+              
             </div>
           </div>
 
