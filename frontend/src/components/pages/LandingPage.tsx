@@ -3,7 +3,7 @@ import HeroSection from "./landing-page/HeroSection";
 import WhoWeAre from "./landing-page/WhoWeAre";
 import OurPhilosphy from "./landing-page/OurPhilosophy";
 import { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis";
 
 import Reviews from "./landing-page/Reviews";
 
