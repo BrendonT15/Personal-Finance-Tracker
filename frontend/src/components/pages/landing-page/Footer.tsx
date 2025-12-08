@@ -1,4 +1,3 @@
-import SouthWestIcon from "@mui/icons-material/SouthWest";
 import { FlipWord } from "../../../animations/FlipWord";
 import { Link } from "react-router-dom";
 

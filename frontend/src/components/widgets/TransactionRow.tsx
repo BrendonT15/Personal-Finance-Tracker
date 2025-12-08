@@ -143,7 +143,7 @@ const TransactionRow = ({
           </div>
 
           <div className="p-4 h-full col gap-2">
-            <h2 className="text-4xl font-semibold">{transactionID}</h2>
+            <h2 className="text-4xl font-semibold text-orange-400">{transactionID}</h2>
 
             <div className="border border-gray-300 flex-1 flex flex-col rounded-md">
               <p className="text-gray-400 text-sm uppercase font-medium tracking-tight border-b border-gray-300 p-4 w-full ">

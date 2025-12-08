@@ -110,12 +110,12 @@ const TransactionPage = () => {
             )}
           </div>
           <div className="flex items-center gap-1">
-            <button className="bg-gray-700 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+            <button className="bg-orange-400 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
               <TuneOutlinedIcon className="text-white " fontSize="inherit" />
               <p className="text-white  text-sm">Filter</p>
             </button>
 
-            <button className="bg-gray-700 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
+            <button className="bg-orange-400 text-white p-2 rounded-sm flex items-center gap-2 cursor-pointer">
               <FileUploadOutlinedIcon
                 className="text-white "
                 fontSize="inherit"

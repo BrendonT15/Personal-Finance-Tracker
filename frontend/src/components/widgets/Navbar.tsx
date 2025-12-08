@@ -3,9 +3,7 @@ import {
   ReceiptLongOutlined as ReceiptLongOutlinedIcon,
   PeopleAltOutlined as PeopleAltOutlinedIcon,
   AnalyticsOutlined as AnalyticsOutlinedIcon,
-  SportsScoreOutlined as SportsScoreOutlinedIcon,
   SettingsOutlined as SettingsOutlinedIcon,
-  Person2Outlined as Person2OutlinedIcon,
   DarkModeOutlined as DarkModeOutlinedIcon,
   LogoutOutlined as LogoutOutlinedIcon,
 } from "@mui/icons-material";
@@ -59,7 +57,7 @@ const Navbar = () => {
   };
 
   const navItemClasses =
-    "flex items-center gap-1 cursor-pointer hover:bg-purple-100 hover:text-purple-700 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
+    "flex items-center gap-1 cursor-pointer hover:bg-orange-100 hover:text-orange-400 hover:rounded-md py-2 px-3 transition-colors duration-200 ease-in-out";
 
   return (
     <div className="col gap-4 h-full">
@@ -68,7 +66,7 @@ const Navbar = () => {
       <nav className="col h-full gap-4 p-4">
         <div className="col gap-4">
           <div className="col-1">
-            <h4 className="text-gray-400 tracking-tighter text-xs">GENERAL</h4>
+            <h4 className="text-gray-400 tracking-tight text-xs">GENERAL</h4>
 
             <div className="col gap-1 text-gray-500 text-sm">
               <Link to="/home" className={navItemClasses}>
@@ -96,7 +94,7 @@ const Navbar = () => {
           </div>
 
           <div className="col-1">
-            <h4 className="text-gray-400 tracking-tigher text-xs">SYSTEM</h4>
+            <h4 className="text-gray-400 tracking-tight text-xs">SYSTEM</h4>
 
             <div className="col-1 text-gray-500 text-sm">
               <Link to="settings" className={navItemClasses}>

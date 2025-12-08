@@ -15,7 +15,7 @@ import { CashFlowAnalysisChart } from "../widgets/charts/CashFlowAnalysisChart";
 import { CategoryRadarChart } from "../widgets/charts/CategoryRadarChart";
 
 const AnalyticsPage = () => {
-  const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
+  const { metrics, isLoading, error } = usePlaidData();
 
   if (isLoading) {
     return (
@@ -33,7 +33,6 @@ const AnalyticsPage = () => {
     <div className="p-4 min-h-screen space-y-6">
       <h2 className="text-4xl font-medium">Analytics</h2>
 
-      {/* SUMMARY METRICS */}
       <div className="grid grid-cols-4 gap-2">
         <StatWidget
           widgetIcon={AccountBalanceWalletOutlined}

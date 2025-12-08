@@ -42,7 +42,6 @@ export const usePlaidData = () => {
         return;
       }
 
-      // Get access token
       const accessToken = await plaidService.getAccessToken(session.user.id);
 
       if (!accessToken) {

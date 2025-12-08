@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import batImage from "../../assets/sergiu-jurca-3Zwi--bRFnE-unsplash.jpg"
 
 import { authAPI } from "../../services/api";
 

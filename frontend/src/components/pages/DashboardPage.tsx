@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import ConnectBankBanner from "../widgets/ConnectBankBanner";
 import {
   AccountBalanceWalletOutlined,
@@ -19,16 +18,8 @@ import DailyCashflowChart from "../widgets/charts/DailyCashflowChart";
 
 
 const DashboardPage = () => {
-  const [firstName, setFirstName] = useState<string>("");
   const { metrics, hasBankAccount, isLoading, error, refetch } = usePlaidData();
 
-  useEffect(() => {
-    const userString = localStorage.getItem("user");
-    if (userString) {
-      const user = JSON.parse(userString);
-      setFirstName(user.user_metadata?.first_name || "User");
-    }
-  }, []);
 
   if (isLoading) {
     return (

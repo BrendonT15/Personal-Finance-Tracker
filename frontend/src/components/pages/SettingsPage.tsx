@@ -1,8 +1,4 @@
-import Navbar from "../widgets/Navbar";
 import SettingsNavbar from "../widgets/SettingsNavbar";
-import AccountInfoPage from "./settings/AccountInfoPage";
-import BankAccountInfoPage from "./settings/BankAccountInfoPage";
-import NotificationPage from "./settings/NotificationPage";
 
 import { Outlet } from "react-router-dom";
 
